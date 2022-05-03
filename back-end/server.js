@@ -20,4 +20,7 @@ app.use('/trainers', trainersRouter)
 const classesRouter = require('./routes/gymClasses')
 app.use('/classes', classesRouter)
 
+const gymsRouter = require('./routes/gyms')
+app.use('/gyms', gymsRouter)
+
 app.listen(3000, () => console.log('Server Started'))
