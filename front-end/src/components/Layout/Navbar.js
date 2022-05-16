@@ -8,7 +8,8 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import { MenuItem } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
 const pages = ["Gyms", "Classes", "Trainers", "Prices"];
 
@@ -95,7 +96,6 @@ const NavBar = () => {
                         component="a"
                         href="/"
                         sx={{
-                            // mr: 0,
                             display: { xs: "none", md: "flex" },
                             fontWeight: 700,
                             letterSpacing: ".2rem",
@@ -107,6 +107,7 @@ const NavBar = () => {
                     </Typography>
                     <Box
                         sx={{
+                            flexGrow: 1,
                             display: { xs: "none", md: "flex" },
                             justifyContent: "flex-start",
                             marginLeft: 5,
@@ -134,15 +135,8 @@ const NavBar = () => {
                         justifyContent={"flex-end"}
                         sx={{ display: { xs: "none", md: "flex" } }}
                     >
-                        {/* <StyledButton>Login</StyledButton>
-                        <StyledButton
-                            variant="contained"
-                            sx={{
-                                boxShadow: "25",
-                            }}
-                        >
-                            Register
-                        </StyledButton> */}
+                        <StyledButton>Login</StyledButton>
+                        <StyledButton variant="contained">Register</StyledButton>
                     </Box>
                 </Toolbar>
             </Container>
