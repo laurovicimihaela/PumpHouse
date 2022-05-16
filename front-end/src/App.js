@@ -1,5 +1,11 @@
+import Layout from "./components/Layout/Layout";
+
 function App() {
-    return <div>PumpHouse</div>;
+    return (
+        <Layout>
+            <h1>Pump House</h1>
+        </Layout>
+    );
 }
 
 export default App;
