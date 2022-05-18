@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
+import { Link } from "@mui/material";
 const pages = ["Gyms", "Classes", "Trainers", "Prices"];
 
 const NavBar = () => {
@@ -135,8 +136,16 @@ const NavBar = () => {
             justifyContent={"flex-end"}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
-            <StyledButton>Login</StyledButton>
-            <StyledButton variant="contained">Register</StyledButton>
+            <StyledButton >
+              <NavLink  to={"/login"}>
+                  Login
+                  </NavLink>
+              </StyledButton>
+            <StyledButton variant="contained">
+              <NavLink  to={"/register"}>
+              Register
+              </NavLink>
+              </StyledButton>
           </Box>
         </Toolbar>
       </Container>
