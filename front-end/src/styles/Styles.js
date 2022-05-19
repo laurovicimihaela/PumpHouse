@@ -13,6 +13,9 @@ export const theme = createTheme({
             contrastText: "#000000",
         },
     },
+    typography: {
+        fontFamily: ["Oswald", "sans-serif"].join(","),
+    },
 });
 
 export const StyledButton = styled(Button)`
