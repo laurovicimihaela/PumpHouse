@@ -5,7 +5,8 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 export default function TrainerCard() {
   return (
-    <ImageList sx={{ width: "700"}} cols={3} gap ={15}>
+    
+    <ImageList cols={3} gap ={15}>
       {itemData.map((item) => (
         <ImageListItem key={item.img}>
           <img
@@ -23,7 +24,7 @@ export default function TrainerCard() {
     </ImageList>
   );
 }
-
+//sx={{display:{xs:10, md:3}}} 
 const itemData = [
   {
     img: 'https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=861,h=639,fit=crop/bronxltdlm/Rectangle-AMPJ7obDkMCEwjKm.png',

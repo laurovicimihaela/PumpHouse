@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
-import { Link } from "@mui/material";
+
 const pages = ["Gyms", "Classes", "Trainers", "Prices"];
 
 const NavBar = () => {
@@ -26,15 +26,11 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="standard" color="transparent">
+    <AppBar position="fixed" color="transparent" sx={{ boxShadow: "0" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              sx={{ color: "#fff" }}
-            >
+            <IconButton size="large" onClick={handleOpenNavMenu} sx={{ color: "#fff" }}>
               <MenuIcon />
             </IconButton>
             <Menu
@@ -83,6 +79,8 @@ const NavBar = () => {
             sx={{
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
+              fontSize: { xs: "1.2rem" },
+              marginLeft: { xs: "119px" },
               fontWeight: 700,
               letterSpacing: ".2rem",
               color: "#fff",
@@ -132,20 +130,14 @@ const NavBar = () => {
               </Button>
             ))}
           </Box>
-          <Box
-            justifyContent={"flex-end"}
-            sx={{ display: { xs: "none", md: "flex" } }}
-          >
-            <StyledButton >
-              <NavLink  to={"/login"}>
-                  Login
-                  </NavLink>
-              </StyledButton>
+          <Box justifyContent={"flex-end"} sx={{ display: { xs: "none", md: "flex" } }}>
+            <StyledButton>
+              {" "}
+              <NavLink to={"/login"}>Login </NavLink>
+            </StyledButton>
             <StyledButton variant="contained">
-              <NavLink  to={"/register"}>
-              Register
-              </NavLink>
-              </StyledButton>
+              <NavLink to={"/register"}>Register </NavLink>
+            </StyledButton>
           </Box>
         </Toolbar>
       </Container>
