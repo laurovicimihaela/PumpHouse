@@ -18,8 +18,8 @@ function App() {
           <Route path="/trainers" element={<Trainers />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/Prices" element={<Prices />} />
-          <Route path="/Gyms" element={<Gyms />} />
+          <Route path="/prices" element={<Prices />} />
+          <Route path="/gyms" element={<Gyms />} />
         </Routes>
       </Layout>
     </BrowserRouter>

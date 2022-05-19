@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
 
-const pages = ["Gyms", "Classes", "Trainers", "Prices"];
+const pages = ["Gyms", "Classes", "Trainers", "Prices", "Login", "Register"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -112,31 +112,47 @@ const NavBar = () => {
               marginLeft: 5,
             }}
           >
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, display: "block" }}
-              >
-                <NavLink
-                  to={`/${page}`}
-                  style={{
-                    textDecoration: "none",
-                    color: "#fff",
-                  }}
+            {pages
+              .filter((page) => page !== "Login" && page !== "Register")
+              .map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, display: "block" }}
                 >
-                  {page}
-                </NavLink>
-              </Button>
-            ))}
+                  <NavLink
+                    to={`/${page}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "#fff",
+                    }}
+                  >
+                    {page}
+                  </NavLink>
+                </Button>
+              ))}
           </Box>
           <Box justifyContent={"flex-end"} sx={{ display: { xs: "none", md: "flex" } }}>
             <StyledButton>
-              {" "}
-              <NavLink to={"/login"}>Login </NavLink>
+              <NavLink
+                to={"/login"}
+                style={{
+                  textDecoration: "none",
+                  color: "#fff",
+                }}
+              >
+                Login
+              </NavLink>
             </StyledButton>
             <StyledButton variant="contained">
-              <NavLink to={"/register"}>Register </NavLink>
+              <NavLink
+                to={"/register"}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                Register
+              </NavLink>
             </StyledButton>
           </Box>
         </Toolbar>
