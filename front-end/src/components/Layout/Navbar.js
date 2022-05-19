@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
-import { Link } from "@mui/material";
+
 const pages = ["Gyms", "Classes", "Trainers", "Prices"];
 
 const NavBar = () => {
