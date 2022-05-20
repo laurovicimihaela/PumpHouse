@@ -22,29 +22,29 @@ export default function BasicGrid() {
     </Typography><Box sx={{ flexGrow: 1 }}>
         <Grid container>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={150}>
               <Item><TextField id="standard-basic" label="First Name" variant="standard" fullWidth={8} /></Item>
             </Grid>
 
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={150}>
               <Item><TextField id="standard-basic" label="Last Name" variant="standard" fullWidth={8} /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
-            <Grid item xs={5} height={1}>
+            <Grid item xs={5} height={1} minWidth={300}>
               <Item><TextField id="standard-basic" label="E-mail" variant="standard" fullWidth={16} /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={150}>
               <Item><TextField id="standard-basic" label="Phone number" variant="standard" fullWidth={8} /></Item>
             </Grid>
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={150}>
               <Item><TextField id="standard-basic" label="Password" variant="standard" fullWidth={8} /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} marginTop={3} justifyContent="center">
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={300}>
               <Button variant="contained" fullWidth={8}>Register</Button>
             </Grid>
           </Grid>
