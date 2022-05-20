@@ -23,17 +23,17 @@ export default function BasicGrid2() {
         <Grid container>
           
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
-            <Grid item xs={3.5} height={1}>
+            <Grid item xs={3.5} height={1} minWidth={300}>
               <Item><TextField id="standard-basic" label="E-mail" variant="standard" fullWidth={16} /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
-            <Grid item xs={3.5} height={1}>
+            <Grid item xs={3.5} height={1} minWidth={300}>
               <Item><TextField id="standard-basic" label="Password" variant="standard" fullWidth={8} /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} marginTop={3} justifyContent="center">
-            <Grid item xs={2.5} height={1}>
+            <Grid item xs={2.5} height={1} minWidth={300}>
               <Button variant="contained" fullWidth={8}>Log in</Button>
             </Grid>
           </Grid>
