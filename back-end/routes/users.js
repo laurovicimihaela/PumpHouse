@@ -2,11 +2,41 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const idValidator = require("../shared/idValidator");
+const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/me", auth, async (req, res) => {
+  res.json(res.user);
+});
+
+router.patch("/login", async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await user.generateAuthToken();
+    res.json({ user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch("/logout", auth, async (req, res) => {
+  try {
+    res.user.tokens = res.user.tokens.filter(
+      (token) => token.token !== res.token
+    );
+    await res.user.save();
+    res.json("message:Log Out");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -20,17 +50,14 @@ router.post("/", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
-    res.status(201).json(user);
+    const token = await user.generateAuthToken();
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
 router.patch("/:id", getUser, async (req, res) => {
-  if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(400).json({ message: "Invalid id" });
-  }
-
   const updates = Object.keys(req.body);
   const allowedUpdates = ["email", "password"];
   const isValidOperation = updates.every((update) =>
