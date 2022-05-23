@@ -1,19 +1,15 @@
 const mongoose = require("mongoose");
 const npmValidator = require("validator");
 
-const trainerSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    email: {
-      type: String,
-      required: true,
-      validate: {
-        validator: function (v) {
-          return npmValidator.isEmail(v);
-        },
-        message: (props) => `${props.value} is not a valid email!`,
+    validate: {
+      validator: function (v) {
+        return npmValidator.isEmail(v);
       },
+      message: (props) => `${props.value} is not a valid email!`,
     },
   },
   password: {
@@ -22,4 +18,4 @@ const trainerSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", trainerSchema);
+module.exports = mongoose.model("User", userSchema);

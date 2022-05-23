@@ -20,12 +20,7 @@ router.get("/:id", getTrainer, (req, res) => {
 
 // Creating one
 router.post("/", async (req, res) => {
-  const trainer = new Trainer({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-  });
+  const trainer = new Trainer(req.body);
   try {
     const newTrainer = await trainer.save();
     res.status(201).json(newTrainer);
@@ -37,7 +32,7 @@ router.post("/", async (req, res) => {
 // Updating One
 router.patch("/:id", async (req, res) => {
   if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(404).json({ message: "Invalid id" });
+    return res.status(400).json({ message: "Invalid id" });
   }
 
   const updates = Object.keys(req.body);
@@ -78,7 +73,7 @@ router.delete("/:id", getTrainer, async (req, res) => {
 
 async function getTrainer(req, res, next) {
   if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(404).json({ message: "Invalid id" });
+    return res.status(400).json({ message: "Invalid id" });
   }
 
   let trainer;
