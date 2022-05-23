@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", getUser, async (req, res) => {
   if (!idValidator.isValidMoongoseId(req.params.id)) {
     return res.status(400).json({ message: "Invalid id" });
   }
@@ -42,14 +42,9 @@ router.patch("/:id", async (req, res) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!user) {
-      return res.status(404).json({ message: "Cannot find user" });
-    }
-    res.json(user);
+    updates.forEach((update) => (res.user[update] = req.body[update]));
+    await res.user.save();
+    res.json(res.user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
