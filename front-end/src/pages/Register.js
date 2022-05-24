@@ -1,9 +1,7 @@
-import FormPropsTextFields from "../components/Login&Register/TextFieldLogin";
+import RegisterForm from "../components/Login&Register/RegisterForm";
 
 const Register = (props) => {
-    return (
-        <FormPropsTextFields />
-    );
+  return <RegisterForm />;
 };
 
 export default Register;

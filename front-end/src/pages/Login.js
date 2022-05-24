@@ -1,9 +1,7 @@
-import BasicGrid2 from "../components/Login&Register/Login";
+import LoginForm from "../components/Login&Register/LoginForm";
 
 const Login = (props) => {
-    return (
-        <BasicGrid2 />
-    );
+  return <LoginForm />;
 };
 
 export default Login;

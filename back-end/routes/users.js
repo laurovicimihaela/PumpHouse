@@ -30,10 +30,7 @@ router.post("/register", async (req, res) => {
 
 router.patch("/login", async (req, res) => {
   try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
+    const user = await User.findByCredentials(req.body.email, req.body.password);
     const token = await user.generateAuthToken();
     res.json({ user, token });
   } catch (err) {
@@ -43,9 +40,7 @@ router.patch("/login", async (req, res) => {
 
 router.patch("/logout", auth, async (req, res) => {
   try {
-    res.user.tokens = res.user.tokens.filter(
-      (token) => token.token !== res.token
-    );
+    res.user.tokens = res.user.tokens.filter((token) => token.token !== res.token);
     await res.user.save();
     res.json({ message: "Log Out" });
   } catch (err) {
