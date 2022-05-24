@@ -4,17 +4,28 @@ const User = require("../models/user");
 const idValidator = require("../shared/idValidator");
 const auth = require("../middleware/auth");
 
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
 router.get("/me", auth, async (req, res) => {
   res.json(res.user);
+});
+
+router.post("/register", async (req, res) => {
+  const user = new User(req.body);
+  try {
+    await user.save();
+    const token = await user.generateAuthToken();
+    res.status(201).json({ user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.patch("/login", async (req, res) => {
@@ -36,46 +47,45 @@ router.patch("/logout", auth, async (req, res) => {
       (token) => token.token !== res.token
     );
     await res.user.save();
-    res.json("message:Log Out");
+    res.json({ message: "Log Out" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/:id", getUser, async (req, res) => {
-  res.json(res.user);
-});
-
-router.post("/", async (req, res) => {
-  const user = new User(req.body);
+router.patch("/logoutAll", auth, async (req, res) => {
   try {
-    await user.save();
-    const token = await user.generateAuthToken();
-    res.status(201).json({ user, token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.patch("/:id", getUser, async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["email", "password"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    res.status(400).json({ error: "Invalid field in request body!" });
-  }
-
-  try {
-    updates.forEach((update) => (res.user[update] = req.body[update]));
+    res.user.tokens = [];
     await res.user.save();
-    res.json(res.user);
+    res.json({ message: "Log Out from all devices" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+// router.get("/:id", getUser, async (req, res) => {
+//   res.json(res.user);
+// });
+
+// router.patch("/:id", getUser, async (req, res) => {
+//   const updates = Object.keys(req.body);
+//   const allowedUpdates = ["email", "password"];
+//   const isValidOperation = updates.every((update) =>
+//     allowedUpdates.includes(update)
+//   );
+
+//   if (!isValidOperation) {
+//     res.status(400).json({ error: "Invalid field in request body!" });
+//   }
+
+//   try {
+//     updates.forEach((update) => (res.user[update] = req.body[update]));
+//     await res.user.save();
+//     res.json(res.user);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
 router.delete("/:id", getUser, async (req, res) => {
   try {

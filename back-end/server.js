@@ -26,4 +26,4 @@ app.use("/gyms", gymsRouter);
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
-app.listen(3000, () => console.log("Server Started"));
+app.listen(4000, () => console.log("Server Started"));
