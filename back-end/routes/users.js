@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const idValidator = require("../shared/idValidator");
 const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
@@ -17,7 +16,7 @@ router.get("/me", auth, async (req, res) => {
   res.json(res.user);
 });
 
-router.post("/register", async (req, res) => {
+router.post("/", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
