@@ -1,96 +1,90 @@
-const express = require('express')
-const router = express.Router()
-const GymClass = require('../models/gymClass')
-const Client = require('../models/client')
-const Trainer = require('../models/trainer')
+const express = require("express");
+const router = express.Router();
+const GymClass = require("../models/gymClass");
+const auth = require("../middleware/auth");
+const User = require("../models/user");
 
 // Getting all
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const classes = await GymClass.find()
-    res.json(classes)
+    const classes = await GymClass.find();
+    res.json(classes);
   } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(500).json({ message: err.message });
   }
-})
+});
 
 // Creating one
-router.post('/', async (req, res) => {
-  const trainer = await Trainer.findById(req.body.trainer)
+router.post("/", auth, async (req, res) => {
   const gymClass = new GymClass({
-    name: req.body.name,
-    trainer: trainer,
-    clients: [],
-    price: req.body.price,
-    capacity: req.body.capacity,
-    date: req.body.date
-  })
+    ...req.body,
+    trainer: res.user,
+  });
   try {
-    const newClass = await gymClass.save()
-    res.status(201).json(newClass)
+    const newClass = await gymClass.save();
+    res.status(201).json(newClass);
   } catch (err) {
-    res.status(400).json({ message: err.message })
+    res.status(400).json({ message: err.message });
   }
-})
+});
 
-router.patch('/:id/add', getClass, async (req, res) => {
-  if (req.body.clientId != null) {
-    const client = await Client.findById(req.body.clientId)
-    res.gymClass.clients.push(client)
+router.patch("/:id/clients", getClass, auth, async (req, res) => {
+  const client = await User.findById(res.user._id);
+  if (!client) {
+    throw Error("Unable to find client");
   }
-    try {
-      const updatedClass = await res.gymClass.save()
-      res.json(updatedClass)
-    } catch (err) {
-      res.status(400).json({ message: err.message })
-    }
-  })
+  res.gymClass.clients.push(client);
+  try {
+    const updatedClass = await res.gymClass.save();
+    res.json(updatedClass);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
-router.patch('/:id', getClass, async (req, res) => {
+router.patch("/:id", getClass, async (req, res) => {
   if (req.body.name != null) {
-    res.gymClass.name = req.body.name
+    res.gymClass.name = req.body.name;
   }
   if (req.body.price != null) {
-    res.gymClass.price = req.body.price
+    res.gymClass.price = req.body.price;
   }
   if (req.body.capacity != null) {
-    res.gymClass.capacity = req.body.capacity
+    res.gymClass.capacity = req.body.capacity;
   }
   if (req.body.date != null) {
-    res.gymClass.date = req.body.date
+    res.gymClass.date = req.body.date;
   }
   try {
-    const updatedClass = await res.gymClass.save()
-    res.json(updatedClass)
+    const updatedClass = await res.gymClass.save();
+    res.json(updatedClass);
   } catch (err) {
-    res.status(400).json({ message: err.message })
+    res.status(400).json({ message: err.message });
   }
-  })
+});
 
-router.delete('/:id', getClass, async (req, res) => {
+router.delete("/:id", getClass, async (req, res) => {
   try {
-    await res.gymClass.remove()
-    res.json({ message: 'Deleted class' })
+    await res.gymClass.remove();
+    res.json({ message: "Deleted class" });
   } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(500).json({ message: err.message });
   }
-})
+});
 
 async function getClass(req, res, next) {
-  let gymClass
+  let gymClass;
   try {
-      gymClass = await GymClass.findById(req.params.id)
+    gymClass = await GymClass.findById(req.params.id);
     if (gymClass == null) {
-      return res.status(404).json({ message: 'Cannot find class' })
+      return res.status(404).json({ message: "Cannot find class" });
     }
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    return res.status(500).json({ message: err.message });
   }
 
-  res.gymClass = gymClass
-  next()
+  res.gymClass = gymClass;
+  next();
 }
 
-
-
-module.exports = router
+module.exports = router;
