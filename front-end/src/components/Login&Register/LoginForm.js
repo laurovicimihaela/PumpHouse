@@ -39,13 +39,15 @@ export default function LoginForm() {
 
     setIsLoading(true);
 
-    fetch("http://localhost:4000/users/login", {
+    fetch("http://127.0.0.1:4000/users/login", {
       method: "PATCH",
       body: JSON.stringify({
         email: enteredEmail,
         password: enteredPassword,
       }),
-      headers: {},
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => {
         setIsLoading(false);
@@ -70,7 +72,13 @@ export default function LoginForm() {
   return (
     <>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >
@@ -79,7 +87,12 @@ export default function LoginForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -93,12 +106,17 @@ export default function LoginForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={emailInputRef}
+                    inputRef={emailInputRef}
                   />
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -112,7 +130,7 @@ export default function LoginForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={passwordInputRef}
+                    inputRef={passwordInputRef}
                   />
                 </Item>
               </Grid>

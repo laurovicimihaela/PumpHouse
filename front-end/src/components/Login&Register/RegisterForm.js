@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { TextField } from "@mui/material";
+import { FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
@@ -27,10 +27,15 @@ export default function RegisterForm() {
   const emailInputRef = useRef();
   const phoneInputRef = useRef();
   const passwordInputRef = useRef();
+  const [role, setRole] = useState("CLIENT");
 
   const authCtx = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -41,20 +46,21 @@ export default function RegisterForm() {
     const enteredPhone = phoneInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    //validation
-
     setIsLoading(true);
 
-    fetch("http://localhost:4000/users/register", {
-      method: "PATCH",
+    fetch("http://127.0.0.1:4000/users", {
+      method: "POST",
       body: JSON.stringify({
-        firstName: enteredFirstName,
-        lastName: enteredLastName,
+        first_name: enteredFirstName,
+        last_name: enteredLastName,
         email: enteredEmail,
         phone: enteredPhone,
         password: enteredPassword,
+        role: role,
       }),
-      headers: {},
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => {
         setIsLoading(false);
@@ -79,7 +85,13 @@ export default function RegisterForm() {
   return (
     <>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >
@@ -88,7 +100,12 @@ export default function RegisterForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
@@ -102,7 +119,7 @@ export default function RegisterForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={firstNameInputRef}
+                    inputRef={firstNameInputRef}
                   />
                 </Item>
               </Grid>
@@ -120,12 +137,17 @@ export default function RegisterForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={lastNameInputRef}
+                    inputRef={lastNameInputRef}
                   />
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -139,12 +161,17 @@ export default function RegisterForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={emailInputRef}
+                    inputRef={emailInputRef}
                   />
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
@@ -158,7 +185,7 @@ export default function RegisterForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={phoneInputRef}
+                    inputRef={phoneInputRef}
                   />
                 </Item>
               </Grid>
@@ -175,10 +202,38 @@ export default function RegisterForm() {
                     InputProps={{
                       sx: { color: "#fff" },
                     }}
-                    ref={passwordInputRef}
+                    inputRef={passwordInputRef}
                   />
                 </Item>
               </Grid>
+            </Grid>
+            <Grid container spacing={2} marginTop={1} justifyContent="center">
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={role}
+                onChange={handleRoleChange}
+              >
+                <FormControlLabel
+                  value="CLIENT"
+                  control={<Radio sx={{ color: "white" }} />}
+                  label="Client"
+                  sx={{
+                    color: "white",
+                    mx: 4,
+                  }}
+                />
+                <FormControlLabel
+                  value="TRAINER"
+                  control={<Radio sx={{ color: "white" }} />}
+                  label="Trainer"
+                  sx={{
+                    color: "white",
+                    mx: 4,
+                  }}
+                />
+              </RadioGroup>
             </Grid>
             <Grid
               container
