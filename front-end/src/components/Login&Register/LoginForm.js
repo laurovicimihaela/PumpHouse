@@ -122,6 +122,7 @@ export default function LoginForm() {
                   <TextField
                     id="standard-basic"
                     label="Password"
+                    type="password"
                     variant="standard"
                     fullWidth={true}
                     InputLabelProps={{

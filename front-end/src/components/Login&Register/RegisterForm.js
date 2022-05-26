@@ -193,6 +193,7 @@ export default function RegisterForm() {
                 <Item>
                   <TextField
                     id="standard-basic"
+                    type="password"
                     label="Password"
                     variant="standard"
                     fullWidth={true}
