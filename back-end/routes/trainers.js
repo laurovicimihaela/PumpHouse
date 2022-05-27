@@ -1,5 +1,6 @@
 const express = require("express");
 const auth = require("../middleware/auth");
+const Gym = require("../models/gym");
 const GymClass = require("../models/gymClass");
 const router = express.Router();
 const User = require("../models/user");
@@ -17,6 +18,15 @@ router.get("/classes", auth, async (req, res) => {
   try {
     const classes = await GymClass.find({ trainer: res.user._id });
     res.json(classes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/gyms", auth, async (req, res) => {
+  try {
+    const gyms = await Gym.find({ trainers: res.user._id });
+    res.json(gyms);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

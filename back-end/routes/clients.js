@@ -22,19 +22,4 @@ router.get("/classes", auth, async (req, res) => {
   }
 });
 
-async function getClient(req, res, next) {
-  let client;
-  try {
-    client = await Client.findById(req.params.id);
-    if (client == null) {
-      return res.status(404).json({ message: "Cannot find client" });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.client = client;
-  next();
-}
-
 module.exports = router;

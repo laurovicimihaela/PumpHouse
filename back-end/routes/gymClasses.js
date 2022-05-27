@@ -31,7 +31,7 @@ router.post("/", auth, async (req, res) => {
 router.patch("/:id/clients", getClass, auth, async (req, res) => {
   const client = await User.findById(res.user._id);
   if (!client) {
-    throw Error("Unable to find client");
+    throw new Error("Please authenticate!");
   }
   res.gymClass.clients.push(client);
   try {

@@ -5,13 +5,12 @@ const gymSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   classes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
-
-  location: {
-    type: [Number],
-    required: true,
-  },
+  trainers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Trainer" }],
+  // location: {
+  //   type: [Number],
+  //   required: true,
+  // },
 });
 
 module.exports = mongoose.model("Gym", gymSchema);
