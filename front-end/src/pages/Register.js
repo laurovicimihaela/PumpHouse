@@ -1,4 +1,4 @@
-import FormPropsTextFields from "../components/Login&Register/TextFieldLogin";
+import FormPropsTextFields from "../components/Login&Register/Register";
 
 const Register = (props) => {
     return (
