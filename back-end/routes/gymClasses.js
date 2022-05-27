@@ -14,26 +14,21 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Creating one
-router.post("/", auth, async (req, res) => {
-  const gymClass = new GymClass({
-    ...req.body,
-    trainer: res.user,
-  });
-  try {
-    const newClass = await gymClass.save();
-    res.status(201).json(newClass);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-router.patch("/:id/clients", getClass, auth, async (req, res) => {
+router.post("/:id/clients", getClass, auth, async (req, res) => {
   const client = await User.findById(res.user._id);
   if (!client) {
     throw new Error("Please authenticate!");
   }
-  res.gymClass.clients.push(client);
+  try {
+    if (res.gymClass.capacity > 0) {
+      res.gymClass.clients.push(client);
+      res.gymClass.capacity = res.gymClass.capacity - 1;
+    } else {
+      throw new Error();
+    }
+  } catch {
+    return res.status(404).json({ message: "No places available" });
+  }
   try {
     const updatedClass = await res.gymClass.save();
     res.json(updatedClass);
@@ -43,19 +38,18 @@ router.patch("/:id/clients", getClass, auth, async (req, res) => {
 });
 
 router.patch("/:id", getClass, async (req, res) => {
-  if (req.body.name != null) {
-    res.gymClass.name = req.body.name;
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["name", "price", "capacity", "date"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    res.status(400).json({ error: "Invalid field in request body!" });
   }
-  if (req.body.price != null) {
-    res.gymClass.price = req.body.price;
-  }
-  if (req.body.capacity != null) {
-    res.gymClass.capacity = req.body.capacity;
-  }
-  if (req.body.date != null) {
-    res.gymClass.date = req.body.date;
-  }
+
   try {
+    updates.forEach((update) => (res.gymClass[update] = req.body[update]));
     const updatedClass = await res.gymClass.save();
     res.json(updatedClass);
   } catch (err) {

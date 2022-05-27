@@ -12,16 +12,45 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/me", auth, async (req, res) => {
-  res.json(res.user);
-});
-
-router.post("/", async (req, res) => {
+router.post("/Creates a new message in ticket #12", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
     const token = await user.generateAuthToken();
     res.status(201).json({ user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/me", auth, async (req, res) => {
+  res.json(res.user);
+});
+
+router.patch("/me", auth, async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["password", "first_name", "last_name"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    res.status(400).json({ error: "Invalid field in request body!" });
+  }
+
+  try {
+    updates.forEach((update) => (res.user[update] = req.body[update]));
+    await res.user.save();
+    res.json(res.user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete("/", auth, async (req, res) => {
+  try {
+    await res.user.remove();
+    res.json({ message: "Deleted user" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -57,35 +86,6 @@ router.patch("/logoutAll", auth, async (req, res) => {
     res.user.tokens = [];
     await res.user.save();
     res.json({ message: "Log Out from all devices" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.delete("/", auth, async (req, res) => {
-  try {
-    await res.user.remove();
-    res.json({ message: "Deleted user" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.patch("/me", auth, async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["password", "first_name", "last_name"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    res.status(400).json({ error: "Invalid field in request body!" });
-  }
-
-  try {
-    updates.forEach((update) => (res.user[update] = req.body[update]));
-    await res.user.save();
-    res.json(res.user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
