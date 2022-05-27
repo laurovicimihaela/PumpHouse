@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/register", async (req, res) => {
+router.post("/users", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
