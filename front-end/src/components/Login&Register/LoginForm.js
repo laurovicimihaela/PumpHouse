@@ -96,7 +96,7 @@ export default function LoginForm() {
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="email"
                     label="E-mail"
                     variant="standard"
                     fullWidth={true}
@@ -120,7 +120,7 @@ export default function LoginForm() {
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="password"
                     label="Password"
                     type="password"
                     variant="standard"

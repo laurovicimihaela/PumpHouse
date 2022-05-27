@@ -109,7 +109,7 @@ export default function RegisterForm() {
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="first-name"
                     label="First Name"
                     variant="standard"
                     fullWidth={true}
@@ -127,7 +127,7 @@ export default function RegisterForm() {
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="last-name"
                     label="Last Name"
                     variant="standard"
                     fullWidth={true}
@@ -151,7 +151,7 @@ export default function RegisterForm() {
               <Grid item xs={5} height={1} minWidth={300}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="email"
                     label="E-mail"
                     variant="standard"
                     fullWidth={true}
@@ -175,7 +175,7 @@ export default function RegisterForm() {
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="phone"
                     label="Phone number"
                     variant="standard"
                     fullWidth={true}
@@ -192,7 +192,7 @@ export default function RegisterForm() {
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="password"
                     type="password"
                     label="Password"
                     variant="standard"
