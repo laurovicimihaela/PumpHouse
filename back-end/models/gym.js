@@ -1,21 +1,12 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const gymSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
-  
-  classes: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Class' }
-  ],
+  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
+  trainers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Trainer" }],
+});
 
-  location: {
-    type: [Number],
-    required: true
-  }
-})
-
-
-
-module.exports = mongoose.model('Gym', gymSchema)
+module.exports = mongoose.model("Gym", gymSchema);
