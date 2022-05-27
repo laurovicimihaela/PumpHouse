@@ -1,93 +1,35 @@
 const express = require("express");
+const auth = require("../middleware/auth");
+const Gym = require("../models/gym");
+const GymClass = require("../models/gymClass");
 const router = express.Router();
-const Trainer = require("../models/trainer");
-const idValidator = require("../shared/idValidator");
+const User = require("../models/user");
 
-// Getting all
 router.get("/", async (req, res) => {
   try {
-    const trainer = await Trainer.find();
-    res.json(trainer);
+    const trainers = await User.find({ role: "TRAINER" });
+    res.json(trainers);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// Getting One
-router.get("/:id", getTrainer, (req, res) => {
-  res.json(res.trainer);
-});
-
-// Creating one
-router.post("/", async (req, res) => {
-  const trainer = new Trainer(req.body);
+router.get("/classes", auth, async (req, res) => {
   try {
-    const newTrainer = await trainer.save();
-    res.status(201).json(newTrainer);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Updating One
-router.patch("/:id", async (req, res) => {
-  if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(400).json({ message: "Invalid id" });
-  }
-
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["firstName", "lastName", "email", "phoneNumber"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid field in request body!" });
-  }
-
-  try {
-    const trainer = await Trainer.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!trainer) {
-      return res.status(404).json({ message: "Cannot find trainer" });
-    }
-
-    res.send(trainer);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Deleting One
-router.delete("/:id", getTrainer, async (req, res) => {
-  try {
-    await res.trainer.remove();
-    res.json({ message: "Deleted trainer" });
+    const classes = await GymClass.find({ trainer: res.user._id });
+    res.json(classes);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-async function getTrainer(req, res, next) {
-  if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(400).json({ message: "Invalid id" });
-  }
-
-  let trainer;
+router.get("/gyms", auth, async (req, res) => {
   try {
-    trainer = await Trainer.findById(req.params.id);
-    if (trainer == null) {
-      return res.status(404).json({ message: "Cannot find trainer" });
-    }
+    const gyms = await Gym.find({ trainers: res.user._id });
+    res.json(gyms);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
-
-  res.trainer = trainer;
-  next();
-}
+});
 
 module.exports = router;

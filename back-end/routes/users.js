@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const idValidator = require("../shared/idValidator");
+const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
   try {
@@ -12,27 +12,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", getUser, async (req, res) => {
-  res.json(res.user);
-});
-
-router.post("/", async (req, res) => {
+router.post("/Creates a new message in ticket #12", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
-    res.status(201).json(user);
+    const token = await user.generateAuthToken();
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.patch("/:id", async (req, res) => {
-  if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(400).json({ message: "Invalid id" });
-  }
+router.get("/me", auth, async (req, res) => {
+  res.json(res.user);
+});
 
+router.patch("/me", auth, async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["email", "password"];
+  const allowedUpdates = ["password", "first_name", "last_name"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -42,20 +39,15 @@ router.patch("/:id", async (req, res) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!user) {
-      return res.status(404).json({ message: "Cannot find user" });
-    }
-    res.json(user);
+    updates.forEach((update) => (res.user[update] = req.body[update]));
+    await res.user.save();
+    res.json(res.user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.delete("/:id", getUser, async (req, res) => {
+router.delete("/", auth, async (req, res) => {
   try {
     await res.user.remove();
     res.json({ message: "Deleted user" });
@@ -64,23 +56,39 @@ router.delete("/:id", getUser, async (req, res) => {
   }
 });
 
-async function getUser(req, res, next) {
-  if (!idValidator.isValidMoongoseId(req.params.id)) {
-    return res.status(400).json({ message: "Invalid id" });
-  }
-
-  let user;
+router.patch("/login", async (req, res) => {
   try {
-    user = await User.findById(req.params.id);
-    if (user == null) {
-      return res.status(404).json({ message: "Cannot find user" });
-    }
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await user.generateAuthToken();
+    res.json({ user, token });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
+});
 
-  res.user = user;
-  next();
-}
+router.patch("/logout", auth, async (req, res) => {
+  try {
+    res.user.tokens = res.user.tokens.filter(
+      (token) => token.token !== res.token
+    );
+    await res.user.save();
+    res.json({ message: "Log Out" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch("/logoutAll", auth, async (req, res) => {
+  try {
+    res.user.tokens = [];
+    await res.user.save();
+    res.json({ message: "Log Out from all devices" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
