@@ -1,7 +1,9 @@
 const express = require("express");
 const auth = require("../middleware/auth");
+const gym = require("../models/gym");
 const router = express.Router();
 const Gym = require("../models/gym");
+const GymClass = require("../models/gymClass");
 const User = require("../models/user");
 
 // Getting all
@@ -15,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 //Getting one
-router.get("/:id", getGym, (req, res) => {
+router.get("/:id", getGym, async (req, res) => {
   res.json(res.gym);
 });
 
@@ -30,8 +32,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/:id/trainers", getGym, auth, async (req, res) => {
-  trainer = await User.findById(res.user._id);
+router.post("/:id/trainers", getGym, auth, async (req, res) => {
+  const trainer = await User.findById(res.user._id);
   if (!trainer) {
     throw new Error("Please authenticate!");
   }
@@ -43,6 +45,25 @@ router.patch("/:id/trainers", getGym, auth, async (req, res) => {
     res.json(updatedGym);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+router.post("/:id/classes", getGym, auth, async (req, res) => {
+  const trainer = await User.findById(res.user._id);
+  if (!trainer) {
+    throw new Error("Please authenticate!");
+  }
+  const gymClass = await new GymClass({
+    ...req.body,
+    trainer: trainer,
+  });
+  try {
+    const newClass = await gymClass.save();
+    res.gym.classes.push(newClass);
+    const updatedGym = await res.gym.save();
+    res.status(201).json(updatedGym);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
