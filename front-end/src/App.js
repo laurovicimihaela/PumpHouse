@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import Prices from "./pages/Prices";
 import Gyms from "./pages/Gyms";
 import MainPage from "./pages/MainPage";
+import AddGym from "./pages/AddGym";
+import AddClass from "./pages/AddClass";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/prices" element={<Prices />} />
           <Route path="/gyms" element={<Gyms />} />
+          <Route path="/addgym" element={<AddGym />} />
+          <Route path="/addclass" element={<AddClass />} />
         </Routes>
       </Layout>
     </BrowserRouter>
