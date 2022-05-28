@@ -22,4 +22,13 @@ router.get("/classes", auth, async (req, res) => {
   }
 });
 
+router.get("/availableClasses", auth, async (req, res) => {
+  try {
+    const classes = await gymClass.find({ clients: { $ne: res.user._id } });
+    res.json(classes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

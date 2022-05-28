@@ -2,18 +2,31 @@ import ClassCard from "../components/Classes/ClassCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
+import AuthContext from "../store/auth-context";
 
 export default function Classes() {
   const [classes, setClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const authCtx = useContext(AuthContext);
+
   const fetchClassesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://127.0.0.1:4000/classes");
+      let url;
+      if (authCtx.isLoggedIn) {
+        url = "http://127.0.0.1:4000/clients/availableClasses";
+      } else {
+        url = "http://127.0.0.1:4000/classes";
+      }
+      const response = await fetch(url, {
+        headers: {
+          Authorization: authCtx.isLoggedIn ? authCtx.token : "",
+        },
+      });
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
