@@ -1,32 +1,104 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import GymCard from "../components/Gyms/GymCard";
-import Typography from '@mui/material/Typography';
-import { Container } from "@mui/material";
-
-let gyms_data = [
-    {gym: "PumpHouse 1", location: "Some adress", schedule1: "Monday-Friday: 6am - 11pm ", schedule2: "Saturday-Sunday: 8am - 10pm ", img: "https://whateveryourdose.com/wp-content/uploads/2020/08/third-space-luxury-gym.png"},
-    {gym: "PumpHouse 2", location: "Some adress", schedule1: "Monday-Friday: 6am - 11pm ", schedule2: "Saturday-Sunday: 8am - 10pm ", img: "https://www.technogym.com/wpress/wp-content/uploads/2021/08/Strength-7.jpg"},
-    {gym: "PumpHouse 3", location: "Some adress", schedule1: "Monday-Friday: 6am - 11pm ", schedule2: "Saturday-Sunday: 8am - 10pm ", img: "https://www.timeoutdoha.com/cloud/timeoutdoha/2021/08/17/5JdjUfRJ-gyms-in-Qatar-1200x800.jpg"}
-]
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { useState, useCallback, useEffect } from "react";
 
 function Gyms() {
-    return (
+  const [gyms, setGyms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    <Container>    
-    <Typography sx={{ fontSize: 42, fontWeight: 'bold', textAlign: "center", mb: 10, mt: 3 }} color="white" gutterBottom>
-      Our Gyms
+  const fetchGymsHandler = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("http://127.0.0.1:4000/gyms");
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+
+      const loadedGyms = [];
+
+      for (const key in data) {
+        loadedGyms.push({
+          id: key,
+          name: data[key].name,
+        });
+      }
+
+      setGyms(loadedGyms);
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchGymsHandler();
+  }, [fetchGymsHandler]);
+
+  let content = (
+    <Typography
+      sx={{ fontSize: 25, fontWeight: "bold" }}
+      color="white"
+      textAlign="center"
+      gutterBottom
+    >
+      Found no gyms.
     </Typography>
-    <Grid container rowSpacing={3} justifyContent= "space-around" >
-      
-      {gyms_data.map((element, index) => (
-        <Grid item key={index}>
-          <GymCard {...element} />
-        </Grid>
-      ))}
-    </Grid>
-    </Container>
+  );
+
+  if (error) {
+    content = (
+      <Typography
+        sx={{ fontSize: 25, fontWeight: "bold" }}
+        color="white"
+        textAlign="center"
+        gutterBottom
+      >
+        {error}
+      </Typography>
     );
+  }
+
+  if (isLoading) {
+    content = (
+      <Typography
+        sx={{ fontSize: 25, fontWeight: "bold" }}
+        color="white"
+        textAlign="center"
+        gutterBottom
+      >
+        Loading...
+      </Typography>
+    );
+  }
+
+  return (
+    <Container>
+      <Typography
+        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        color="white"
+        gutterBottom
+      >
+        Gyms
+      </Typography>
+      {gyms.length > 0 && (
+        <Grid container rowSpacing={3} justifyContent="center">
+          {gyms.map((element, index) => (
+            <Grid item key={index}>
+              <GymCard {...element} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+      {gyms.length <= 0 && <div>{content} </div>}
+    </Container>
+  );
 }
 
 export default Gyms;

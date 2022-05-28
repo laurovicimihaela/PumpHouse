@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 const AuthContext = React.createContext({
   token: "",
   isLoggedIn: false,
@@ -29,7 +29,7 @@ export const AuthContextProvider = (props) => {
     setToken(token);
     localStorage.setItem("token", token);
   };
-  useEffect(() => {}, [tokenData, logoutHandler]);
+
   const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
@@ -37,9 +37,7 @@ export const AuthContextProvider = (props) => {
     logout: logoutHandler,
   };
   return (
-    <AuthContext.Provider value={contextValue}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
   );
 };
 export default AuthContext;

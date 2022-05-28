@@ -17,7 +17,9 @@ const BookButton = styled(Button)({
   },
 });
 
-export default function ClassCard({ name, price, trainer }) {
+export default function ClassCard({ name, price, trainer, capacity, date }) {
+  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+  const dateNewFormat = new Date(date).toLocaleDateString("en-US", options);
   return (
     <Container>
       <Card sx={{ maxWidth: 260, border: 1, borderColor: "white" }}>
@@ -29,37 +31,29 @@ export default function ClassCard({ name, price, trainer }) {
         />
         <CardContent>
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
               <Typography gutterBottom variant="h5">
                 {name}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-evenly" }}
-            >
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Typography variant="subtitle1" color="text.primary">
-                Price:
-              </Typography>
-              <Typography variant="subtitle1" color="text.primary">
-                {price}
+                Price: {price}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-evenly" }}
-            >
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Typography variant="subtitle1" color="text.primary">
-                Trainer:
+                Capacity: {capacity}
               </Typography>
+            </Grid>
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Typography variant="subtitle1" color="text.primary">
-                {trainer}
+                Trainer: {trainer}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Typography variant="subtitle1" color="text.primary">
+                Date: {dateNewFormat}
               </Typography>
             </Grid>
           </Grid>

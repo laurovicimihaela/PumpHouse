@@ -87,16 +87,11 @@ export default function LoginForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid
-              container
-              spacing={2}
-              marginBottom={1}
-              justifyContent="center"
-            >
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="email"
                     label="E-mail"
                     variant="standard"
                     fullWidth={true}
@@ -111,16 +106,11 @@ export default function LoginForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid
-              container
-              spacing={2}
-              marginBottom={1}
-              justifyContent="center"
-            >
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
-                    id="standard-basic"
+                    id="password"
                     label="Password"
                     type="password"
                     variant="standard"
