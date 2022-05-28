@@ -1,6 +1,5 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const gym = require("../models/gym");
 const router = express.Router();
 const Gym = require("../models/gym");
 const GymClass = require("../models/gymClass");
@@ -9,7 +8,7 @@ const User = require("../models/user");
 // Getting all
 router.get("/", async (req, res) => {
   try {
-    const gym = await Gym.find();
+    const gym = await Gym.find().populate("trainers").populate("classes");
     res.json(gym);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -96,14 +95,15 @@ router.delete("/:id", getGym, async (req, res) => {
 async function getGym(req, res, next) {
   let gym;
   try {
-    gym = await Gym.findById(req.params.id);
+    gym = await Gym.findById(req.params.id)
+      .populate("trainers")
+      .populate("classes");
     if (gym == null) {
       return res.status(404).json({ message: "Cannot find gym" });
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-
   res.gym = gym;
   next();
 }

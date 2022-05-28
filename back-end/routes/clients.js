@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const gymClass = require("../models/gymClass");
+const GymClass = require("../models/gymClass");
 const User = require("../models/user");
 const router = express.Router();
 
@@ -15,7 +15,9 @@ router.get("/", async (req, res) => {
 
 router.get("/classes", auth, async (req, res) => {
   try {
-    const classes = await gymClass.find({ clients: res.user._id });
+    const classes = await GymClass.find({ clients: res.user._id })
+      .populate("trainer")
+      .populate("clients");
     res.json(classes);
   } catch (err) {
     res.status(500).json({ message: err.message });

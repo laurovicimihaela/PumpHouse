@@ -7,7 +7,9 @@ const User = require("../models/user");
 // Getting all
 router.get("/", async (req, res) => {
   try {
-    const classes = await GymClass.find();
+    const classes = await GymClass.find()
+      .populate("trainer")
+      .populate("clients");
     res.json(classes);
   } catch (err) {
     res.status(500).json({ message: err.message });

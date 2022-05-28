@@ -5,8 +5,8 @@ const gymSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Class" }],
-  trainers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Trainer" }],
+  classes: [{ type: mongoose.Schema.Types.ObjectId, ref: "GymClass" }],
+  trainers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Gym", gymSchema);
