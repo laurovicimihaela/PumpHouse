@@ -25,12 +25,32 @@ export default function BasicGrid3() {
           
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
             <Grid item xs={3.5} height={1} minWidth={300}>
-              <Item><TextField id="standard-basic" label="Gym Name" variant="standard" fullWidth={16} /></Item>
+              <Item><TextField 
+                    id="standard-basic" 
+                    label="Gym Name" 
+                    variant="standard" 
+                    fullWidth={true} 
+                    InputLabelProps={{
+                      sx: { color: "#fff" },
+                    }}
+                    InputProps={{
+                      sx: { color: "#fff" },
+                    }}/></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
             <Grid item xs={3.5} height={1} minWidth={300}>
-              <Item><TextField id="standard-basic" label="Location" variant="standard" fullWidth={8} /></Item>
+              <Item><TextField 
+                    id="standard-basic" 
+                    label="Location" 
+                    variant="standard" 
+                    fullWidth={true} 
+                    InputLabelProps={{
+                      sx: { color: "#fff" },
+                    }}
+                    InputProps={{
+                      sx: { color: "#fff" },
+                    }}/></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
@@ -39,8 +59,6 @@ export default function BasicGrid3() {
               <Button
                     variant="contained"
                     component="label"
-                    justifyContent="center"
-                    textAlign="center"
                     >
                     Upload Picture
                     <input
@@ -53,7 +71,7 @@ export default function BasicGrid3() {
           </Grid>
           <Grid container spacing={2} marginBottom={1} marginTop={3} justifyContent="center">
             <Grid item xs={2.5} height={1} minWidth={300}>
-              <Button variant="contained" fullWidth={8}>ADD GYM</Button>
+              <Button variant="contained" fullWidth={true}>ADD GYM</Button>
             </Grid>
           </Grid>
         </Grid>

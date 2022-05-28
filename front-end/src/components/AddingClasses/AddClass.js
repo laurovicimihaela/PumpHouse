@@ -29,12 +29,33 @@ export default function BasicGrid4() {
           
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
             <Grid item xs={3.5} height={1} minWidth={300}>
-              <Item><TextField id="standard-basic" label="Class Name" variant="standard" fullWidth={true} /></Item>
+              <Item><TextField 
+                      id="standard-basic" 
+                      label="Class Name" 
+                      variant="standard" 
+                      fullWidth={true} 
+                      InputLabelProps={{
+                        sx: { color: "#fff" },
+                      }}
+                      InputProps={{
+                        sx: { color: "#fff" },
+                      }}/></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
             <Grid item xs={3.5} height={1} minWidth={300}>
-              <Item><TextField id="standard-basic" label="Price" variant="standard" fullWidth={true} /></Item>
+              <Item><TextField 
+                      id="standard-basic" 
+                      label="Price" 
+                      variant="standard" 
+                      fullWidth={true} 
+                      InputLabelProps={{
+                        sx: { color: "#fff" },
+                      }}
+                      InputProps={{
+                        sx: { color: "#fff" },
+                      }}
+                      /></Item>
             </Grid>
           </Grid>
           <Grid container spacing={2} marginBottom={1} justifyContent="center">
@@ -49,6 +70,12 @@ export default function BasicGrid4() {
                 }}
                 variant="standard"
                 fullWidth={true}
+                InputLabelProps={{
+                  sx: { color: "#fff" },
+                }}
+                InputProps={{
+                  sx: { color: "#fff" },
+                }}
                 />
               </Item>
             </Grid>
@@ -63,7 +90,16 @@ export default function BasicGrid4() {
                     onChange={(newValue) => {
                     setValue(newValue);
                     }}
-                    renderInput={(params) => <TextField variant={'standard'} fullWidth={true} {...params} />}
+                    renderInput={(params) => <TextField 
+                                              variant={'standard'} 
+                                              fullWidth={true} 
+                                              {...params} 
+                                              InputLabelProps={{
+                                                sx: { color: "#fff" },
+                                              }}
+                                              InputProps={{
+                                                sx: { color: "#fff" },
+                                              }}/>}
                 />
                 </LocalizationProvider>
               </Item>
@@ -75,8 +111,6 @@ export default function BasicGrid4() {
               <Button
                     variant="contained"
                     component="label"
-                    justifyContent="center"
-                    textAlign="center"
                     >
                     Upload Picture
                     <input
