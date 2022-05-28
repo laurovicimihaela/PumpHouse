@@ -19,7 +19,15 @@ const BookButton = styled(Button)({
   },
 });
 
-export default function ClassCard({ name, price, trainer, capacity, date, _id }) {
+export default function ClassCard({
+  name,
+  price,
+  trainer,
+  capacity,
+  date,
+  _id,
+  removeBookedClassHandler,
+}) {
   const authCtx = useContext(AuthContext);
 
   const bookClassHandler = useCallback(async () => {
@@ -36,9 +44,10 @@ export default function ClassCard({ name, price, trainer, capacity, date, _id })
       }
 
       const data = await response.json();
+      removeBookedClassHandler(_id);
       return data;
     } catch {}
-  }, [authCtx.token, _id]);
+  }, [authCtx.token, _id, removeBookedClassHandler]);
 
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
   const dateNewFormat = new Date(date).toLocaleDateString("en-US", options);

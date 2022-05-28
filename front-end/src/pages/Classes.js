@@ -12,6 +12,12 @@ export default function Classes() {
 
   const authCtx = useContext(AuthContext);
 
+  const removeBookedClass = (id) => {
+    const updatedClasses = classes.filter((gymClass) => gymClass._id !== id);
+    console.log(updatedClasses);
+    setClasses(updatedClasses);
+  };
+
   const fetchClassesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -107,7 +113,7 @@ export default function Classes() {
         <Grid container rowSpacing={3} justifyContent="center">
           {classes.map((element, index) => (
             <Grid item key={index}>
-              <ClassCard {...element} />
+              <ClassCard {...element} removeBookedClassHandler={removeBookedClass} />
             </Grid>
           ))}
         </Grid>
