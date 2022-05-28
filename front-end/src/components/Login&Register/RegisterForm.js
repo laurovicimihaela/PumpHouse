@@ -74,7 +74,7 @@ export default function RegisterForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.token);
+        authCtx.login(data.token, data.user.role, data.user.first_name);
         navigate("/", { replace: true });
       })
       .catch((err) => {
