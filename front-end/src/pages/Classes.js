@@ -51,7 +51,7 @@ export default function Classes() {
       setError(error.message);
     }
     setIsLoading(false);
-  }, []);
+  }, [authCtx.isLoggedIn, authCtx.token]);
 
   useEffect(() => {
     fetchClassesHandler();
