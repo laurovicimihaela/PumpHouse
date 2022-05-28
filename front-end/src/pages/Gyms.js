@@ -25,7 +25,7 @@ function Gyms() {
 
       for (const key in data) {
         loadedGyms.push({
-          id: key,
+          _id: data[key]._id,
           name: data[key].name,
         });
       }

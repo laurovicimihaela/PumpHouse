@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/system";
+import { useCallback, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 const BookButton = styled(Button)({
   backgroundColor: "red",
@@ -17,7 +19,27 @@ const BookButton = styled(Button)({
   },
 });
 
-export default function ClassCard({ name, price, trainer, capacity, date }) {
+export default function ClassCard({ name, price, trainer, capacity, date, _id }) {
+  const authCtx = useContext(AuthContext);
+
+  const bookClassHandler = useCallback(async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:4000/classes/${_id}/clients`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authCtx.token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch {}
+  }, [authCtx.token, _id]);
+
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
   const dateNewFormat = new Date(date).toLocaleDateString("en-US", options);
   return (
@@ -59,7 +81,7 @@ export default function ClassCard({ name, price, trainer, capacity, date }) {
           </Grid>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-          <BookButton>Book Membership</BookButton>
+          <BookButton onClick={bookClassHandler}>Book Membership</BookButton>
         </CardActions>
       </Card>
     </Container>

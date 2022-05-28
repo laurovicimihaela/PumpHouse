@@ -4,9 +4,9 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import image from "../../assets/Gym/gym.jpg";
 
-export default function TrainerCard({ id, first_name, last_name, email }) {
+export default function TrainerCard({ _id, first_name, last_name, email }) {
   return (
-    <ImageListItem key={id}>
+    <ImageListItem key={_id}>
       <img
         src={`${image}?w=248&fit=crop&auto=format`}
         srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}

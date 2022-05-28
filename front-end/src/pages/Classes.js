@@ -24,7 +24,7 @@ export default function Classes() {
 
       for (const key in data) {
         loadedClasses.push({
-          id: key,
+          _id: data[key]._id,
           name: data[key].name,
           price: data[key].price,
           trainer: data[key].trainer,

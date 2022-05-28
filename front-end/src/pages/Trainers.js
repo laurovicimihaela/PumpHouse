@@ -25,7 +25,7 @@ export default function Trainers() {
 
       for (const key in data) {
         loadedTrainers.push({
-          id: key,
+          _id: data[key]._id,
           first_name: data[key].first_name,
           last_name: data[key].last_name,
           email: data[key].email,

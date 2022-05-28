@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 
 import GymImage from "../../assets/Gym/gym.jpg";
 
-function GymCard({ name, img }) {
+function GymCard({ name, _id, img }) {
   return (
     <Container>
       <Card sx={{ minWidth: 250, backgroundColor: "text.primary" }}>
