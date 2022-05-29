@@ -85,7 +85,7 @@ export default function ClassCard({
             </Grid>
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Typography variant="subtitle1" color="text.primary">
-                Trainer: {trainer}
+                Trainer: {trainer.first_name}
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>

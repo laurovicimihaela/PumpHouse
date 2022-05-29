@@ -30,6 +30,7 @@ export default function Trainers() {
           first_name: data[key].first_name,
           last_name: data[key].last_name,
           email: data[key].email,
+          image: data[key].image,
         });
       }
 

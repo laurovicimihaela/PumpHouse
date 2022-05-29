@@ -28,6 +28,7 @@ export default function RegisterForm() {
   const phoneInputRef = useRef();
   const passwordInputRef = useRef();
   const [role, setRole] = useState("CLIENT");
+  const imageInputRef = useRef();
 
   const authCtx = useContext(AuthContext);
 
@@ -43,6 +44,7 @@ export default function RegisterForm() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPhone = phoneInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredImage = imageInputRef.current.value;
 
     fetch("http://127.0.0.1:4000/users", {
       method: "POST",
@@ -53,9 +55,10 @@ export default function RegisterForm() {
         phone: enteredPhone,
         password: enteredPassword,
         role: role,
+        image: enteredImage,
       }),
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
@@ -215,6 +218,16 @@ export default function RegisterForm() {
                   }}
                 />
               </RadioGroup>
+            </Grid>
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+              <Grid item xs={3.5} height={1} minWidth={300} justifyContent="center">
+                <Item sx={{ backgroundColor: "#0000" }}>
+                  <Button variant="contained" component="label">
+                    Upload Picture
+                    <input type="file" ref={imageInputRef} hidden />
+                  </Button>
+                </Item>
+              </Grid>
             </Grid>
             <Grid
               container

@@ -16,7 +16,9 @@ router.get("/", async (req, res) => {
 router.post("/", uploadImage.single("image"), async (req, res) => {
   const user = new User(req.body);
   try {
-    user.image = req.file.buffer;
+    if (req.file) {
+      user.image = req.file.buffer;
+    }
     await user.save();
     const token = await user.generateAuthToken();
     res.status(201).json({ user, token });
