@@ -31,8 +31,6 @@ export default function RegisterForm() {
 
   const authCtx = useContext(AuthContext);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
@@ -45,8 +43,6 @@ export default function RegisterForm() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPhone = phoneInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
-    setIsLoading(true);
 
     fetch("http://127.0.0.1:4000/users", {
       method: "POST",
@@ -63,7 +59,6 @@ export default function RegisterForm() {
       },
     })
       .then((res) => {
-        setIsLoading(false);
         if (res.ok) {
           return res.json();
         } else {

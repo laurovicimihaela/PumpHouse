@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useCallback, useEffect, useContext } from "react";
 import AuthContext from "../store/auth-context";
+import { CircularProgress } from "@mui/material";
 
 export default function Classes() {
   const [classes, setClasses] = useState([]);
@@ -88,16 +89,7 @@ export default function Classes() {
   }
 
   if (isLoading) {
-    content = (
-      <Typography
-        sx={{ fontSize: 25, fontWeight: "bold" }}
-        color="white"
-        textAlign="center"
-        gutterBottom
-      >
-        Loading...
-      </Typography>
-    );
+    content = <CircularProgress />;
   }
 
   return (

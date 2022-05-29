@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import ImageList from "@mui/material/ImageList";
 import { useState, useCallback, useEffect } from "react";
+import { CircularProgress } from "@mui/material";
 
 export default function Trainers() {
   const [trainers, setTrainers] = useState([]);
@@ -66,18 +67,8 @@ export default function Trainers() {
       </Typography>
     );
   }
-
   if (isLoading) {
-    content = (
-      <Typography
-        sx={{ fontSize: 25, fontWeight: "bold" }}
-        color="white"
-        textAlign="center"
-        gutterBottom
-      >
-        Loading...
-      </Typography>
-    );
+    content = <CircularProgress />;
   }
 
   return (

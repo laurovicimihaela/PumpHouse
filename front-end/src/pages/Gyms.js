@@ -4,6 +4,7 @@ import GymCard from "../components/Gyms/GymCard";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useCallback, useEffect } from "react";
+import { CircularProgress } from "@mui/material";
 
 function Gyms() {
   const [gyms, setGyms] = useState([]);
@@ -66,16 +67,7 @@ function Gyms() {
   }
 
   if (isLoading) {
-    content = (
-      <Typography
-        sx={{ fontSize: 25, fontWeight: "bold" }}
-        color="white"
-        textAlign="center"
-        gutterBottom
-      >
-        Loading...
-      </Typography>
-    );
+    content = <CircularProgress />;
   }
 
   return (

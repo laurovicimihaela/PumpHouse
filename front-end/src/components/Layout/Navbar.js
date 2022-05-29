@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import { useContext } from "react";
 
-const pages = ["Gyms", "Classes", "Trainers", "Prices", "Login", "Register"];
+const pages = ["Gyms", "Classes", "Trainers", "Prices", "MyClasses", "Login", "Register"];
 
 const NavBar = () => {
   const authCtx = useContext(AuthContext);
@@ -56,22 +56,88 @@ const NavBar = () => {
                 },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {authCtx.isLoggedIn && (
+                <MenuItem key="logout" onClick={handleCloseNavMenu}>
+                  <Typography
+                    textAlign="center"
+                    sx={{ textDecoration: "none", color: "#fff", display: "block" }}
+                  >
+                    {`Hi ${authCtx.name}`}
+                  </Typography>
+                </MenuItem>
+              )}
+              {pages
+                .filter(
+                  (page) =>
+                    page !== "Login" && page !== "Register" && page !== "MyClasses"
+                )
+                .map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <NavLink
+                        to={`/${page}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "#fff",
+                          display: "block",
+                        }}
+                      >
+                        {page}
+                      </NavLink>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              {authCtx.isLoggedIn && (
+                <MenuItem key="MyClasses" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <NavLink
-                      to={`/${page}`}
+                      to={`/MyClasses`}
                       style={{
                         textDecoration: "none",
                         color: "#fff",
                         display: "block",
                       }}
                     >
-                      {page}
+                      MyClasses
                     </NavLink>
                   </Typography>
                 </MenuItem>
-              ))}
+              )}
+              {authCtx.isLoggedIn && (
+                <MenuItem key="logout" onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <NavLink
+                      to={`/`}
+                      onClick={authCtx.logout}
+                      style={{
+                        textDecoration: "none",
+                        color: "#fff",
+                        display: "block",
+                      }}
+                    >
+                      Logout
+                    </NavLink>
+                  </Typography>
+                </MenuItem>
+              )}
+              {!authCtx.isLoggedIn &&
+                ["Login", "Register"].map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <NavLink
+                        to={`/${page}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "#fff",
+                          display: "block",
+                        }}
+                      >
+                        {page}
+                      </NavLink>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              )
             </Menu>
           </Box>
           <Typography
@@ -116,7 +182,9 @@ const NavBar = () => {
             }}
           >
             {pages
-              .filter((page) => page !== "Login" && page !== "Register")
+              .filter(
+                (page) => page !== "Login" && page !== "Register" && page !== "MyClasses"
+              )
               .map((page) => (
                 <Button
                   key={page}
@@ -134,6 +202,23 @@ const NavBar = () => {
                   </NavLink>
                 </Button>
               ))}
+            {authCtx.isLoggedIn && (
+              <Button
+                key="MyClasses"
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, display: "block" }}
+              >
+                <NavLink
+                  to={`/myClasses`}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                  }}
+                >
+                  MyClasses
+                </NavLink>
+              </Button>
+            )}
           </Box>
           {!authCtx.isLoggedIn && (
             <Box justifyContent={"flex-end"} sx={{ display: { xs: "none", md: "flex" } }}>
@@ -170,7 +255,7 @@ const NavBar = () => {
                 variant="h6"
                 noWrap
                 component="a"
-                href="/"
+                href="/myClasses"
                 marginRight={2}
                 sx={{
                   display: { xs: "none", md: "flex" },

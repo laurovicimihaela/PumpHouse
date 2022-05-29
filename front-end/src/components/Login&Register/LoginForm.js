@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import { useState, useRef, useContext } from "react";
+import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AuthContext from "../../store/auth-context";
@@ -27,8 +27,6 @@ export default function LoginForm() {
 
   const authCtx = useContext(AuthContext);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -36,8 +34,6 @@ export default function LoginForm() {
     const enteredPassword = passwordInputRef.current.value;
 
     //validation
-
-    setIsLoading(true);
 
     fetch("http://127.0.0.1:4000/users/login", {
       method: "PATCH",
@@ -50,7 +46,6 @@ export default function LoginForm() {
       },
     })
       .then((res) => {
-        setIsLoading(false);
         if (res.ok) {
           return res.json();
         } else {
