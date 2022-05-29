@@ -17,6 +17,10 @@ const BookButton = styled(Button)({
   "&:hover": {
     backgroundColor: "red",
   },
+  "&:disabled": {
+    color: "white",
+    backgroundColor: "grey",
+  },
 });
 
 export default function ClassCard({
@@ -28,6 +32,7 @@ export default function ClassCard({
   _id,
   removeBookedClassHandler,
 }) {
+  const disableBook = capacity === 0 ? true : false;
   const authCtx = useContext(AuthContext);
 
   const bookClassHandler = useCallback(async () => {
@@ -90,7 +95,9 @@ export default function ClassCard({
           </Grid>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-          <BookButton onClick={bookClassHandler}>Book Membership</BookButton>
+          <BookButton onClick={bookClassHandler} disabled={disableBook}>
+            {disableBook ? "Full capacity" : "Book Membership"}
+          </BookButton>
         </CardActions>
       </Card>
     </Container>
