@@ -31,6 +31,7 @@ export default function ClassCard({
   date,
   _id,
   removeBookedClassHandler,
+  mappedFrom,
 }) {
   const disableBook = capacity === 0 ? true : false;
   const authCtx = useContext(AuthContext);
@@ -95,9 +96,20 @@ export default function ClassCard({
           </Grid>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-          <BookButton onClick={bookClassHandler} disabled={disableBook}>
-            {disableBook ? "Full capacity" : "Book Membership"}
-          </BookButton>
+          {mappedFrom === "classes" && (
+            <BookButton onClick={bookClassHandler} disabled={disableBook}>
+              {disableBook ? "Full capacity" : "Book Membership"}
+            </BookButton>
+          )}
+          {mappedFrom === "myClasses" && (
+            <BookButton
+              onClick={bookClassHandler}
+              disabled={disableBook}
+              style={{ backgroundColor: "green" }}
+            >
+              Booked
+            </BookButton>
+          )}
         </CardActions>
       </Card>
     </Container>

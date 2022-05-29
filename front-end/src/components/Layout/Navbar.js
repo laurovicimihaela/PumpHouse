@@ -104,7 +104,7 @@ const NavBar = () => {
                 </MenuItem>
               )}
               {authCtx.isLoggedIn && (
-                <MenuItem key="logout" onClick={handleCloseNavMenu}>
+                <MenuItem key="logoutMobile" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <NavLink
                       to={`/`}

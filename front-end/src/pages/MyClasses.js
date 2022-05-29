@@ -6,32 +6,20 @@ import { useState, useCallback, useEffect, useContext } from "react";
 import AuthContext from "../store/auth-context";
 import { CircularProgress } from "@mui/material";
 
-export default function Classes() {
+export default function MyClasses() {
   const [classes, setClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const authCtx = useContext(AuthContext);
 
-  const removeBookedClass = (id) => {
-    const updatedClasses = classes.filter((gymClass) => gymClass._id !== id);
-    console.log(updatedClasses);
-    setClasses(updatedClasses);
-  };
-
   const fetchClassesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      let url;
-      if (authCtx.isLoggedIn) {
-        url = "http://127.0.0.1:4000/clients/availableClasses";
-      } else {
-        url = "http://127.0.0.1:4000/classes";
-      }
-      const response = await fetch(url, {
+      const response = await fetch("http://127.0.0.1:4000/clients/classes", {
         headers: {
-          Authorization: authCtx.isLoggedIn ? authCtx.token : "",
+          Authorization: authCtx.token,
         },
       });
       if (!response.ok) {
@@ -58,7 +46,7 @@ export default function Classes() {
       setError(error.message);
     }
     setIsLoading(false);
-  }, [authCtx.isLoggedIn, authCtx.token]);
+  }, [authCtx.token]);
 
   useEffect(() => {
     fetchClassesHandler();
@@ -71,7 +59,7 @@ export default function Classes() {
       textAlign="center"
       gutterBottom
     >
-      Found no classes.
+      You don't have any class booked.
     </Typography>
   );
 
@@ -99,17 +87,13 @@ export default function Classes() {
         color="white"
         gutterBottom
       >
-        CLasses
+        My CLasses
       </Typography>
       {classes.length > 0 && (
         <Grid container rowSpacing={3} justifyContent="center">
           {classes.map((element, index) => (
             <Grid item key={index}>
-              <ClassCard
-                {...element}
-                removeBookedClassHandler={removeBookedClass}
-                mappedFrom="classes"
-              />
+              <ClassCard {...element} mappedFrom="myClasses" />
             </Grid>
           ))}
         </Grid>

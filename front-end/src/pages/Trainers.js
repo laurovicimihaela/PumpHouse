@@ -84,8 +84,8 @@ export default function Trainers() {
         <Grid container rowSpacing={3} justifyContent="center">
           <Grid>
             <ImageList cols={3} gap={15}>
-              {trainers.map((element, index) => (
-                <TrainerCard {...element} />
+              {trainers.map((element) => (
+                <TrainerCard key={element._id} {...element} />
               ))}
               );
             </ImageList>
