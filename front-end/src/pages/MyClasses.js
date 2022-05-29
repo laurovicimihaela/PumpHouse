@@ -1,46 +1,56 @@
-import * as React from "react";
+import ClassCard from "../components/Classes/ClassCard";
 import Grid from "@mui/material/Grid";
-import GymCard from "../components/Gyms/GymCard";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
+import AuthContext from "../store/auth-context";
 import { CircularProgress } from "@mui/material";
 
-function Gyms() {
-  const [gyms, setGyms] = useState([]);
+export default function MyClasses() {
+  const [classes, setClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchGymsHandler = useCallback(async () => {
+  const authCtx = useContext(AuthContext);
+
+  const fetchClassesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://127.0.0.1:4000/gyms");
+      const response = await fetch("http://127.0.0.1:4000/clients/classes", {
+        headers: {
+          Authorization: authCtx.token,
+        },
+      });
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
 
       const data = await response.json();
 
-      const loadedGyms = [];
+      const loadedClasses = [];
 
       for (const key in data) {
-        loadedGyms.push({
+        loadedClasses.push({
           _id: data[key]._id,
           name: data[key].name,
+          price: data[key].price,
+          trainer: data[key].trainer.first_name,
+          capacity: data[key].capacity,
+          date: data[key].date,
         });
       }
 
-      setGyms(loadedGyms);
+      setClasses(loadedClasses);
     } catch (error) {
       setError(error.message);
     }
     setIsLoading(false);
-  }, []);
+  }, [authCtx.token]);
 
   useEffect(() => {
-    fetchGymsHandler();
-  }, [fetchGymsHandler]);
+    fetchClassesHandler();
+  }, [fetchClassesHandler]);
 
   let content = (
     <Typography
@@ -49,7 +59,7 @@ function Gyms() {
       textAlign="center"
       gutterBottom
     >
-      Found no gyms.
+      You don't have any class booked.
     </Typography>
   );
 
@@ -77,20 +87,18 @@ function Gyms() {
         color="white"
         gutterBottom
       >
-        Gyms
+        My CLasses
       </Typography>
-      {gyms.length > 0 && (
+      {classes.length > 0 && (
         <Grid container rowSpacing={3} justifyContent="center">
-          {gyms.map((element, index) => (
+          {classes.map((element, index) => (
             <Grid item key={index}>
-              <GymCard {...element} />
+              <ClassCard {...element} mappedFrom="myClasses" />
             </Grid>
           ))}
         </Grid>
       )}
-      {gyms.length <= 0 && <div>{content} </div>}
+      {classes.length <= 0 && <div>{content} </div>}
     </Container>
   );
 }
-
-export default Gyms;

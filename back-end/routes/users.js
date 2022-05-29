@@ -46,9 +46,7 @@ router.get("/me", auth, async (req, res) => {
 router.patch("/me", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["password", "first_name", "last_name"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
   if (!isValidOperation) {
     res.status(400).json({ error: "Invalid field in request body!" });
@@ -74,10 +72,7 @@ router.delete("/", auth, async (req, res) => {
 
 router.patch("/login", async (req, res) => {
   try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
+    const user = await User.findByCredentials(req.body.email, req.body.password);
     const token = await user.generateAuthToken();
     res.json({ user, token });
   } catch (err) {
@@ -87,9 +82,7 @@ router.patch("/login", async (req, res) => {
 
 router.patch("/logout", auth, async (req, res) => {
   try {
-    res.user.tokens = res.user.tokens.filter(
-      (token) => token.token !== res.token
-    );
+    res.user.tokens = res.user.tokens.filter((token) => token.token !== res.token);
     await res.user.save();
     res.json({ message: "Log Out" });
   } catch (err) {

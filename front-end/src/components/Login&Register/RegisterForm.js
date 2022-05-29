@@ -31,8 +31,6 @@ export default function RegisterForm() {
 
   const authCtx = useContext(AuthContext);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
@@ -45,8 +43,6 @@ export default function RegisterForm() {
     const enteredEmail = emailInputRef.current.value;
     const enteredPhone = phoneInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
-    setIsLoading(true);
 
     fetch("http://127.0.0.1:4000/users", {
       method: "POST",
@@ -63,7 +59,6 @@ export default function RegisterForm() {
       },
     })
       .then((res) => {
-        setIsLoading(false);
         if (res.ok) {
           return res.json();
         } else {
@@ -74,7 +69,7 @@ export default function RegisterForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.token);
+        authCtx.login(data.token, data.user.role, data.user.first_name);
         navigate("/", { replace: true });
       })
       .catch((err) => {
@@ -100,12 +95,7 @@ export default function RegisterForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid
-              container
-              spacing={2}
-              marginBottom={1}
-              justifyContent="center"
-            >
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
@@ -142,12 +132,7 @@ export default function RegisterForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid
-              container
-              spacing={2}
-              marginBottom={1}
-              justifyContent="center"
-            >
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
               <Grid item xs={5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -166,12 +151,7 @@ export default function RegisterForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid
-              container
-              spacing={2}
-              marginBottom={1}
-              justifyContent="center"
-            >
+            <Grid container spacing={2} marginBottom={1} justifyContent="center">
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField

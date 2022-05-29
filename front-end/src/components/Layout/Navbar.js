@@ -11,10 +11,13 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import { StyledButton } from "../../styles/Styles";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
+import { useContext } from "react";
 
-const pages = ["Gyms", "Classes", "Trainers", "Prices", "Login", "Register"];
+const pages = ["Gyms", "Classes", "Trainers", "Prices", "MyClasses", "Login", "Register"];
 
 const NavBar = () => {
+  const authCtx = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -53,22 +56,88 @@ const NavBar = () => {
                 },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {authCtx.isLoggedIn && (
+                <MenuItem key="logout" onClick={handleCloseNavMenu}>
+                  <Typography
+                    textAlign="center"
+                    sx={{ textDecoration: "none", color: "#fff", display: "block" }}
+                  >
+                    {`Hi ${authCtx.name}`}
+                  </Typography>
+                </MenuItem>
+              )}
+              {pages
+                .filter(
+                  (page) =>
+                    page !== "Login" && page !== "Register" && page !== "MyClasses"
+                )
+                .map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <NavLink
+                        to={`/${page}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "#fff",
+                          display: "block",
+                        }}
+                      >
+                        {page}
+                      </NavLink>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              {authCtx.isLoggedIn && (
+                <MenuItem key="MyClasses" onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <NavLink
-                      to={`/${page}`}
+                      to={`/MyClasses`}
                       style={{
                         textDecoration: "none",
                         color: "#fff",
                         display: "block",
                       }}
                     >
-                      {page}
+                      MyClasses
                     </NavLink>
                   </Typography>
                 </MenuItem>
-              ))}
+              )}
+              {authCtx.isLoggedIn && (
+                <MenuItem key="logoutMobile" onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <NavLink
+                      to={`/`}
+                      onClick={authCtx.logout}
+                      style={{
+                        textDecoration: "none",
+                        color: "#fff",
+                        display: "block",
+                      }}
+                    >
+                      Logout
+                    </NavLink>
+                  </Typography>
+                </MenuItem>
+              )}
+              {!authCtx.isLoggedIn &&
+                ["Login", "Register"].map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <NavLink
+                        to={`/${page}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "#fff",
+                          display: "block",
+                        }}
+                      >
+                        {page}
+                      </NavLink>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              )
             </Menu>
           </Box>
           <Typography
@@ -113,7 +182,9 @@ const NavBar = () => {
             }}
           >
             {pages
-              .filter((page) => page !== "Login" && page !== "Register")
+              .filter(
+                (page) => page !== "Login" && page !== "Register" && page !== "MyClasses"
+              )
               .map((page) => (
                 <Button
                   key={page}
@@ -131,30 +202,83 @@ const NavBar = () => {
                   </NavLink>
                 </Button>
               ))}
+            {authCtx.isLoggedIn && (
+              <Button
+                key="MyClasses"
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, display: "block" }}
+              >
+                <NavLink
+                  to={`/myClasses`}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                  }}
+                >
+                  MyClasses
+                </NavLink>
+              </Button>
+            )}
           </Box>
-          <Box justifyContent={"flex-end"} sx={{ display: { xs: "none", md: "flex" } }}>
-            <StyledButton>
-              <NavLink
-                to={"/login"}
-                style={{
-                  textDecoration: "none",
+          {!authCtx.isLoggedIn && (
+            <Box justifyContent={"flex-end"} sx={{ display: { xs: "none", md: "flex" } }}>
+              <StyledButton>
+                <NavLink
+                  to={"/login"}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                  }}
+                >
+                  Login
+                </NavLink>
+              </StyledButton>
+              <StyledButton variant="contained">
+                <NavLink
+                  to={"/register"}
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  Register
+                </NavLink>
+              </StyledButton>
+            </Box>
+          )}
+          {authCtx.isLoggedIn && (
+            <Box
+              justifyContent="flex-end"
+              alignItems="center"
+              sx={{ display: { xs: "none", md: "flex" } }}
+            >
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/myClasses"
+                marginRight={2}
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  fontWeight: 700,
+                  letterSpacing: ".2rem",
                   color: "#fff",
-                }}
-              >
-                Login
-              </NavLink>
-            </StyledButton>
-            <StyledButton variant="contained">
-              <NavLink
-                to={"/register"}
-                style={{
                   textDecoration: "none",
                 }}
               >
-                Register
-              </NavLink>
-            </StyledButton>
-          </Box>
+                {`Hi ${authCtx.name}`}
+              </Typography>
+              <StyledButton variant="contained" onClick={authCtx.logout}>
+                <NavLink
+                  to={"/"}
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  Logout
+                </NavLink>
+              </StyledButton>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

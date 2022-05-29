@@ -1,45 +1,65 @@
 import React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 const AuthContext = React.createContext({
   token: "",
   isLoggedIn: false,
+  role: "CLIENT",
+  name: "",
   login: (token) => {},
   logout: () => {},
 });
 
-const retrieveStoredToken = () => {
+const retrieveUserStoredToken = () => {
   const storedToken = localStorage.getItem("token");
+  const storedRole = localStorage.getItem("role");
+  const storedName = localStorage.getItem("name");
   return {
     token: storedToken,
+    role: storedRole,
+    name: storedName,
   };
 };
 export const AuthContextProvider = (props) => {
-  const tokenData = retrieveStoredToken();
+  const userData = retrieveUserStoredToken();
   let initialToken;
-  if (tokenData) {
-    initialToken = tokenData.token;
+  let initialRole;
+  let initialName;
+  if (userData) {
+    initialToken = userData.token;
+    initialRole = userData.role;
+    initialName = userData.name;
   }
+
   const [token, setToken] = useState(initialToken);
+  const [role, setRole] = useState(initialRole);
+  const [name, setName] = useState(initialName);
   const userIsLoggedIn = !!token;
   const logoutHandler = useCallback(() => {
     setToken(null);
+    setRole("CLIENT");
+    setName(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("name");
   }, []);
-  const loginHandler = (token) => {
+  const loginHandler = (token, role, name) => {
     setToken(token);
+    setRole(role);
+    setName(name);
     localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+    localStorage.setItem("name", name);
   };
-  useEffect(() => {}, [tokenData, logoutHandler]);
+
   const contextValue = {
     token: token,
+    role: role,
+    name: name,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
   };
   return (
-    <AuthContext.Provider value={contextValue}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
   );
 };
 export default AuthContext;
