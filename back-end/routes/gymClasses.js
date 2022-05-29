@@ -7,10 +7,26 @@ const User = require("../models/user");
 // Getting all
 router.get("/", async (req, res) => {
   try {
-    const classes = await GymClass.find();
+    const classes = await GymClass.find()
+      .populate("trainer", "first_name last_name email")
+      .populate("clients", "first_name last_name email");
     res.json(classes);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/:id/image", async (req, res) => {
+  try {
+    const gymClass = await GymClass.findById(req.params.id);
+
+    if (!gymClass || !gymClass.image) {
+      throw new Error("Model Error");
+    }
+    res.set("Content-Type", "image/jpg");
+    res.send(gymClass.image);
+  } catch (e) {
+    res.status(404).send();
   }
 });
 

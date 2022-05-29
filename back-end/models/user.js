@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
       message: "{VALUE} is not supported",
     },
   },
+  image: {
+    type: Buffer,
+  },
   tokens: [
     {
       token: { type: String, required: true },
@@ -57,6 +60,8 @@ userSchema.methods.toJSON = function () {
 
   delete userObject.password;
   delete userObject.tokens;
+  delete userObject.image;
+
   return userObject;
 };
 
