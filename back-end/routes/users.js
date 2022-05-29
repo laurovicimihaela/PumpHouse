@@ -2,24 +2,40 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const auth = require("../middleware/auth");
+const uploadImage = require("../middleware/uploadImage");
 
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.send(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", uploadImage.single("image"), async (req, res) => {
   const user = new User(req.body);
   try {
+    user.image = req.file.buffer;
     await user.save();
     const token = await user.generateAuthToken();
     res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/:id/image", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || !user.image) {
+      throw new Error("Model Error");
+    }
+    res.set("Content-Type", "image/jpg");
+    res.send(user.image);
+  } catch (e) {
+    res.status(404).send();
   }
 });
 

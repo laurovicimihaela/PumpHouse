@@ -24,6 +24,19 @@ const classSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  image: {
+    type: Buffer,
+    required: true,
+  },
 });
+
+classSchema.methods.toJSON = function () {
+  const gymClass = this;
+  const gymClassObject = gymClass.toObject();
+
+  delete gymClassObject.image;
+
+  return gymClassObject;
+};
 
 module.exports = mongoose.model("GymClass", classSchema);
