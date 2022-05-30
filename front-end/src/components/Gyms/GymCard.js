@@ -22,7 +22,7 @@ const JoinButton = styled(Button)({
   },
 });
 
-function GymCard({ name, _id, removeJoinedGymHandler }) {
+function GymCard({ name, _id, removeJoinedGymHandler, mappedFrom }) {
   const authCtx = useContext(AuthContext);
 
   const joinGymHandler = useCallback(async () => {
@@ -45,7 +45,7 @@ function GymCard({ name, _id, removeJoinedGymHandler }) {
   }, [authCtx.token, _id, removeJoinedGymHandler]);
   return (
     <Container>
-      <Card sx={{ minWidth: 250, backgroundColor: "text.primary" }}>
+      <Card sx={{ maxWidth: 330, backgroundColor: "text.primary" }}>
         <CardContent>
           <Typography
             sx={{ fontSize: 25, fontWeight: "bold" }}
@@ -61,7 +61,7 @@ function GymCard({ name, _id, removeJoinedGymHandler }) {
             image={`http://localhost:4000/gyms/${_id}/image`}
           />
         </CardContent>
-        {authCtx.role === "TRAINER" && (
+        {authCtx.role === "TRAINER" && mappedFrom !== "MyGyms" && (
           <CardActions sx={{ display: "flex", justifyContent: "center" }}>
             <JoinButton onClick={joinGymHandler}>Join</JoinButton>
           </CardActions>

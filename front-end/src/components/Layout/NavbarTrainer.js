@@ -76,6 +76,20 @@ const NavBarTrainer = () => {
                   </NavLink>
                 </Typography>
               </MenuItem>
+              <MenuItem key="MyGymsMobile" onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">
+                  <NavLink
+                    to="MyGyms"
+                    style={{
+                      textDecoration: "none",
+                      color: "#fff",
+                      display: "block",
+                    }}
+                  >
+                    My Gyms
+                  </NavLink>
+                </Typography>
+              </MenuItem>
               <MenuItem key="MyScheduledClassesMobile" onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <NavLink
@@ -176,6 +190,21 @@ const NavBarTrainer = () => {
                 }}
               >
                 Gyms
+              </NavLink>
+            </Button>
+            <Button
+              key="MyGyms"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, display: "block" }}
+            >
+              <NavLink
+                to="/MyGyms"
+                style={{
+                  textDecoration: "none",
+                  color: "#fff",
+                }}
+              >
+                My Gyms
               </NavLink>
             </Button>
 
