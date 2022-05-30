@@ -11,7 +11,7 @@ const Layout = (props) => {
       {authCtx.role === "CLIENT" && <NavBar />}
       {authCtx.role === "TRAINER" && <NavBarTrainer />}
       {authCtx.role === "ADMIN" && <NavbarAdmin />}
-      <main style={{ marginTop: "100px" }}>{props.children}</main>
+      <main>{props.children}</main>
       <Footer />
     </Fragment>
   );
