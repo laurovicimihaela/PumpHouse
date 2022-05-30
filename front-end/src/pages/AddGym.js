@@ -1,9 +1,7 @@
-import BasicGrid3 from "../components/AddingGym/AddGym";
+import AddGymForm from "../components/AddingGym/AddGym";
 
 const AddGym = (props) => {
-    return (
-        <BasicGrid3 />
-    );
+  return <AddGymForm />;
 };
 
 export default AddGym;

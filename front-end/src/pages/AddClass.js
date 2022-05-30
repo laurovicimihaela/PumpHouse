@@ -1,9 +1,7 @@
-import BasicGrid4 from "../components/AddingClasses/AddClass";
+import AddClassForm from "../components/AddingClasses/AddClass";
 
 const AddClass = (props) => {
-    return (
-        <BasicGrid4 />
-    );
+  return <AddClassForm />;
 };
 
 export default AddClass;

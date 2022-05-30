@@ -32,4 +32,13 @@ router.get("/gyms", auth, async (req, res) => {
   }
 });
 
+router.get("/availableGyms", auth, async (req, res) => {
+  try {
+    const gyms = await Gym.find({ trainers: { $ne: res.user._id } });
+    res.json(gyms);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

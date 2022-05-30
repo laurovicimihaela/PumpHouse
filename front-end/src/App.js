@@ -10,6 +10,7 @@ import Gyms from "./pages/Gyms";
 import MainPage from "./pages/MainPage";
 import AddGym from "./pages/AddGym";
 import AddClass from "./pages/AddClass";
+import MyScheduledClasses from "./pages/MyScheduledClasses";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/classes" element={<Classes />} />
           <Route path="/myclasses" element={<MyClasses />} />
+          <Route path="/myscheduledclasses" element={<MyScheduledClasses />} />
           <Route path="/trainers" element={<Trainers />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

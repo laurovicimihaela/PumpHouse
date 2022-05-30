@@ -57,7 +57,7 @@ const NavBar = () => {
               }}
             >
               {authCtx.isLoggedIn && (
-                <MenuItem key="logout" onClick={handleCloseNavMenu}>
+                <MenuItem key="Hi" onClick={handleCloseNavMenu}>
                   <Typography
                     textAlign="center"
                     sx={{ textDecoration: "none", color: "#fff", display: "block" }}

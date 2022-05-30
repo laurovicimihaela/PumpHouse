@@ -1,29 +1,23 @@
-import * as React from "react";
+import ClassCard from "../components/Classes/ClassCard";
 import Grid from "@mui/material/Grid";
-import GymCard from "../components/Gyms/GymCard";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useCallback, useEffect, useContext } from "react";
+import AuthContext from "../store/auth-context";
 import { CircularProgress } from "@mui/material";
-import AuthContext from "./../store/auth-context";
 
-function Gyms() {
-  const [gyms, setGyms] = useState([]);
+export default function MyScheduledClasses() {
+  const [classes, setClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const authCtx = useContext(AuthContext);
 
-  const removeJoinedGyms = (id) => {
-    const updatedGyms = gyms.filter((gym) => gym._id !== id);
-    setGyms(updatedGyms);
-  };
-
-  const fetchGymsHandler = useCallback(async () => {
+  const fetchClassesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://127.0.0.1:4000/trainers/availableGyms", {
+      const response = await fetch("http://127.0.0.1:4000/trainers/classes", {
         headers: {
           Authorization: authCtx.token,
         },
@@ -34,16 +28,20 @@ function Gyms() {
 
       const data = await response.json();
 
-      const loadedGyms = [];
+      const loadedClasses = [];
 
       for (const key in data) {
-        loadedGyms.push({
+        loadedClasses.push({
           _id: data[key]._id,
           name: data[key].name,
+          price: data[key].price,
+          trainer: data[key].trainer,
+          capacity: data[key].capacity,
+          date: data[key].date,
         });
       }
 
-      setGyms(loadedGyms);
+      setClasses(loadedClasses);
     } catch (error) {
       setError(error.message);
     }
@@ -51,8 +49,8 @@ function Gyms() {
   }, [authCtx.token]);
 
   useEffect(() => {
-    fetchGymsHandler();
-  }, [fetchGymsHandler]);
+    fetchClassesHandler();
+  }, [fetchClassesHandler]);
 
   let content = (
     <Typography
@@ -61,7 +59,7 @@ function Gyms() {
       textAlign="center"
       gutterBottom
     >
-      Found no gyms.
+      You don't have any class scheduled.
     </Typography>
   );
 
@@ -89,20 +87,18 @@ function Gyms() {
         color="white"
         gutterBottom
       >
-        Gyms
+        My Scheduled CLasses
       </Typography>
-      {gyms.length > 0 && (
+      {classes.length > 0 && (
         <Grid container rowSpacing={3} justifyContent="center">
-          {gyms.map((element, index) => (
+          {classes.map((element, index) => (
             <Grid item key={index}>
-              <GymCard {...element} removeJoinedGymHandler={removeJoinedGyms} />
+              <ClassCard {...element} mappedFrom="myScheduledClasses" />
             </Grid>
           ))}
         </Grid>
       )}
-      {gyms.length <= 0 && <div>{content} </div>}
+      {classes.length <= 0 && <div>{content} </div>}
     </Container>
   );
 }
-
-export default Gyms;

@@ -64,7 +64,7 @@ export default function ClassCard({
           component="img"
           alt="green iguana"
           height="170"
-          image="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=861,h=639,fit=crop/bronxltdlm/Rectangle-AMPJ7obDkMCEwjKm.png"
+          image={`http://localhost:4000/classes/${_id}/image`}
         />
         <CardContent>
           <Grid container>

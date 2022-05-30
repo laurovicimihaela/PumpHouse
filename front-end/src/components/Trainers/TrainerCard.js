@@ -2,9 +2,7 @@ import * as React from "react";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 
-import image from "../../assets/Gym/gym.jpg";
-
-export default function TrainerCard({ _id, first_name, last_name, email, image }) {
+export default function TrainerCard({ _id, first_name, last_name, email }) {
   return (
     <ImageListItem key={_id}>
       <img

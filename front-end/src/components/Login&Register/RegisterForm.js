@@ -39,27 +39,26 @@ export default function RegisterForm() {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const enteredFirstName = firstNameInputRef.current.value;
-    const enteredLastName = lastNameInputRef.current.value;
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPhone = phoneInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-    const enteredImage = imageInputRef.current.value;
+    const payload_data = {
+      first_name: firstNameInputRef.current["value"],
+      last_name: lastNameInputRef.current["value"],
+      email: emailInputRef.current["value"],
+      phone: phoneInputRef.current["value"],
+      password: passwordInputRef.current["value"],
+      role: role,
+      image: imageInputRef.current.files[0],
+    };
+
+    let formData = new FormData();
+    for (let key in payload_data) {
+      if (payload_data[key]) {
+        formData.append(key, payload_data[key]);
+      }
+    }
 
     fetch("http://127.0.0.1:4000/users", {
       method: "POST",
-      body: JSON.stringify({
-        first_name: enteredFirstName,
-        last_name: enteredLastName,
-        email: enteredEmail,
-        phone: enteredPhone,
-        password: enteredPassword,
-        role: role,
-        image: enteredImage,
-      }),
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      body: formData,
     })
       .then((res) => {
         if (res.ok) {
