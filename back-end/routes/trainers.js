@@ -16,7 +16,9 @@ router.get("/", async (req, res) => {
 
 router.get("/classes", auth, async (req, res) => {
   try {
-    const classes = await GymClass.find({ trainer: res.user._id });
+    const classes = await GymClass.find({ trainer: res.user._id })
+      .populate("trainer", "first_name last_name email")
+      .populate("clients", "first_name last_name email");
     res.json(classes);
   } catch (err) {
     res.status(500).json({ message: err.message });

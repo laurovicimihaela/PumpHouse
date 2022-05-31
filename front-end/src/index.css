@@ -12,10 +12,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-  margin-top: 100px;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@media only screen and (max-width: 425px) {
+  body {
+    padding-bottom: 530px;
+  }
 }

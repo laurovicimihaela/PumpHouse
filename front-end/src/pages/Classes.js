@@ -47,10 +47,11 @@ export default function Classes() {
           _id: data[key]._id,
           name: data[key].name,
           price: data[key].price,
-          trainer: data[key].trainer,
+          trainer: data[key].trainer.first_name,
           capacity: data[key].capacity,
           date: data[key].date,
         });
+        console.log(data[key].trainer);
       }
 
       setClasses(loadedClasses);

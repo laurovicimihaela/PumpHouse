@@ -35,6 +35,7 @@ export default function ClassCard({
 }) {
   const disableBook = capacity === 0 ? true : false;
   const authCtx = useContext(AuthContext);
+  console.log(trainer);
 
   const bookClassHandler = useCallback(async () => {
     try {
@@ -85,7 +86,7 @@ export default function ClassCard({
             </Grid>
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Typography variant="subtitle1" color="text.primary">
-                Trainer: {trainer.first_name}
+                Trainer: {trainer}
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>

@@ -56,7 +56,6 @@ export default function LoginForm() {
         }
       })
       .then((data) => {
-        console.log(data);
         authCtx.login(data.token, data.user.role, data.user.first_name);
         navigate("/", { replace: true });
       })

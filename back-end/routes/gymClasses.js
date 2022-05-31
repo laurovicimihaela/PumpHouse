@@ -56,9 +56,7 @@ router.post("/:id/clients", getClass, auth, async (req, res) => {
 router.patch("/:id", getClass, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "price", "capacity", "date"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
   if (!isValidOperation) {
     res.status(400).json({ error: "Invalid field in request body!" });

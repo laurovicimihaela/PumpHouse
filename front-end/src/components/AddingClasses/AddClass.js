@@ -108,7 +108,8 @@ export default function AddClassForm() {
           });
         }
       })
-      .then(() => {
+      .then((data) => {
+        console.log(data);
         navigate("/", { replace: true });
       })
       .catch((err) => {
@@ -191,13 +192,18 @@ export default function AddClassForm() {
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Select Gym</InputLabel>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: "#fff" }}>
+                      Select Gym
+                    </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={gymSelected}
                       label="Select Gym"
                       onChange={handleChange}
+                      inputProps={{
+                        sx: { color: "#fff" },
+                      }}
                     >
                       {gyms.length > 0 &&
                         gyms.map((gym, index) => (
