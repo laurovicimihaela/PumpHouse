@@ -39,13 +39,16 @@ export default function ClassCard({
 
   const bookClassHandler = useCallback(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:4000/classes/${_id}/clients`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${authCtx.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://gympadapp.herokuapp.com/classes/${_id}/clients`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authCtx.token}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -56,7 +59,12 @@ export default function ClassCard({
     } catch {}
   }, [authCtx.token, _id, removeBookedClassHandler]);
 
-  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   const dateNewFormat = new Date(date).toLocaleDateString("en-US", options);
   return (
     <Container>
@@ -65,31 +73,51 @@ export default function ClassCard({
           component="img"
           alt="green iguana"
           height="170"
-          image={`http://localhost:4000/classes/${_id}/image`}
+          image={`https://gympadapp.herokuapp.com/classes/${_id}/image`}
         />
         <CardContent>
           <Grid container>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <Typography gutterBottom variant="h5">
                 {name}
               </Typography>
             </Grid>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <Typography variant="subtitle1" color="text.primary">
                 Price: {price}
               </Typography>
             </Grid>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <Typography variant="subtitle1" color="text.primary">
                 Capacity: {capacity}
               </Typography>
             </Grid>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <Typography variant="subtitle1" color="text.primary">
                 Trainer: {trainer}
               </Typography>
             </Grid>
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <Typography variant="subtitle1" color="text.primary">
                 Date: {dateNewFormat}
               </Typography>

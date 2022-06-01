@@ -27,13 +27,16 @@ function GymCard({ name, _id, removeJoinedGymHandler, mappedFrom }) {
 
   const joinGymHandler = useCallback(async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:4000/gyms/${_id}/trainers`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${authCtx.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://gympadapp.herokuapp.com/gyms/${_id}/trainers`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authCtx.token}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -58,7 +61,7 @@ function GymCard({ name, _id, removeJoinedGymHandler, mappedFrom }) {
           <CardMedia
             component="img"
             height="300"
-            image={`http://localhost:4000/gyms/${_id}/image`}
+            image={`https://gympadapp.herokuapp.com/gyms/${_id}/image`}
           />
         </CardContent>
         {authCtx.role === "TRAINER" && mappedFrom !== "MyGyms" && (

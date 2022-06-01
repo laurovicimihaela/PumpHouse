@@ -31,9 +31,12 @@ export default function AddClassForm() {
   const [gyms, setGyms] = useState([]);
   const fetchTrainersGymsHandler = useCallback(async () => {
     try {
-      const response = await fetch("http://127.0.0.1:4000/trainers/gyms", {
-        headers: { Authorization: authCtx.token },
-      });
+      const response = await fetch(
+        "https://gympadapp.herokuapp.com/trainers/gyms",
+        {
+          headers: { Authorization: authCtx.token },
+        }
+      );
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -93,7 +96,7 @@ export default function AddClassForm() {
       }
     }
 
-    fetch(`http://127.0.0.1:4000/gyms/${gymSelected}/classes`, {
+    fetch(`https://gympadapp.herokuapp.com/gyms/${gymSelected}/classes`, {
       method: "POST",
       body: formData,
       headers: { Authorization: authCtx.token },
@@ -120,7 +123,13 @@ export default function AddClassForm() {
   return (
     <>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >
@@ -129,7 +138,12 @@ export default function AddClassForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -148,7 +162,12 @@ export default function AddClassForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -167,7 +186,12 @@ export default function AddClassForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -188,11 +212,19 @@ export default function AddClassForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: "#fff" }}>
+                    <InputLabel
+                      id="demo-simple-select-label"
+                      sx={{ color: "#fff" }}
+                    >
                       Select Gym
                     </InputLabel>
                     <Select
@@ -216,7 +248,12 @@ export default function AddClassForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -244,8 +281,19 @@ export default function AddClassForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
-              <Grid item xs={3.5} height={1} minWidth={300} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
+              <Grid
+                item
+                xs={3.5}
+                height={1}
+                minWidth={300}
+                justifyContent="center"
+              >
                 <Item sx={{ backgroundColor: "#0000" }}>
                   <Button variant="contained" component="label">
                     Upload Picture

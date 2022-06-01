@@ -25,9 +25,9 @@ export default function Classes() {
     try {
       let url;
       if (authCtx.isLoggedIn) {
-        url = "http://127.0.0.1:4000/clients/availableClasses";
+        url = "https://gympadapp.herokuapp.com/clients/availableClasses";
       } else {
-        url = "http://127.0.0.1:4000/classes";
+        url = "https://gympadapp.herokuapp.com/classes";
       }
       const response = await fetch(url, {
         headers: {
@@ -96,7 +96,13 @@ export default function Classes() {
   return (
     <Container>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >

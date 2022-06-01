@@ -17,11 +17,14 @@ export default function MyGyms() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://127.0.0.1:4000/trainers/gyms", {
-        headers: {
-          Authorization: authCtx.token,
-        },
-      });
+      const response = await fetch(
+        "https://gympadapp.herokuapp.com/trainers/gyms",
+        {
+          headers: {
+            Authorization: authCtx.token,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -79,7 +82,13 @@ export default function MyGyms() {
   return (
     <Container>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >
