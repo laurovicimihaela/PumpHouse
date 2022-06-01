@@ -30,6 +30,7 @@ function App() {
           <Route path="/mygyms" element={<MyGyms />} />
           <Route path="/addgym" element={<AddGym />} />
           <Route path="/addclass" element={<AddClass />} />
+          <Route path="*" element={<MainPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
