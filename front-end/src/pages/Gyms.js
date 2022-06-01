@@ -22,10 +22,16 @@ function Gyms() {
   const fetchGymsHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    let url;
+    if (authCtx.isLoggedIn) {
+      url = "https://gympadapp.herokuapp.com/trainers/availableGyms";
+    } else {
+      url = "https://gympadapp.herokuapp.com/gyms";
+    }
     try {
-      const response = await fetch("http://127.0.0.1:4000/trainers/availableGyms", {
+      const response = await fetch(url, {
         headers: {
-          Authorization: authCtx.token,
+          Authorization: authCtx.isLoggedIn ? authCtx.token : "",
         },
       });
       if (!response.ok) {
@@ -85,7 +91,13 @@ function Gyms() {
   return (
     <Container>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >

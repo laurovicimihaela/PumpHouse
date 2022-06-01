@@ -40,7 +40,7 @@ export default function AddGymForm() {
       }
     }
 
-    fetch(`http://127.0.0.1:4000/gyms`, {
+    fetch(`https://gympadapp.herokuapp.com/gyms`, {
       method: "POST",
       body: formData,
     })
@@ -65,7 +65,13 @@ export default function AddGymForm() {
   return (
     <>
       <Typography
-        sx={{ fontSize: 42, fontWeight: "bold", textAlign: "center", mb: 10, mt: 3 }}
+        sx={{
+          fontSize: 42,
+          fontWeight: "bold",
+          textAlign: "center",
+          mb: 10,
+          mt: 3,
+        }}
         color="white"
         gutterBottom
       >
@@ -74,7 +80,12 @@ export default function AddGymForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={3.5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -93,8 +104,19 @@ export default function AddGymForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
-              <Grid item xs={3.5} height={1} minWidth={300} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
+              <Grid
+                item
+                xs={3.5}
+                height={1}
+                minWidth={300}
+                justifyContent="center"
+              >
                 <Item sx={{ backgroundColor: "#0000" }}>
                   <Button variant="contained" component="label">
                     Upload Picture

@@ -56,7 +56,7 @@ export default function RegisterForm() {
       }
     }
 
-    fetch("http://127.0.0.1:4000/users", {
+    fetch("https://gympadapp.herokuapp.com/users", {
       method: "POST",
       body: formData,
     })
@@ -97,7 +97,12 @@ export default function RegisterForm() {
       <Box sx={{ flexGrow: 1 }}>
         <form onSubmit={submitHandler}>
           <Grid container>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
@@ -134,7 +139,12 @@ export default function RegisterForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={5} height={1} minWidth={300}>
                 <Item>
                   <TextField
@@ -153,7 +163,12 @@ export default function RegisterForm() {
                 </Item>
               </Grid>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
               <Grid item xs={2.5} height={1} minWidth={150}>
                 <Item>
                   <TextField
@@ -218,8 +233,19 @@ export default function RegisterForm() {
                 />
               </RadioGroup>
             </Grid>
-            <Grid container spacing={2} marginBottom={1} justifyContent="center">
-              <Grid item xs={3.5} height={1} minWidth={300} justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              marginBottom={1}
+              justifyContent="center"
+            >
+              <Grid
+                item
+                xs={3.5}
+                height={1}
+                minWidth={300}
+                justifyContent="center"
+              >
                 <Item sx={{ backgroundColor: "#0000" }}>
                   <Button variant="contained" component="label">
                     Upload Picture
